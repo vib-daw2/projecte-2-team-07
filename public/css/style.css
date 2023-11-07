@@ -1,0 +1,132 @@
+h1 {
+    text-align: center;
+}
+
+.create-form {
+    width: 50%;
+    margin: 15px auto;
+}
+
+label, select, input {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="date"], select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.right-column {
+    position: relative;
+}
+
+.table-button {
+    padding-left: 20px;
+}
+
+.create-button {
+    position: absolute;
+    right: 10px;
+}
+
+.create-button a {
+    border-color: black;
+}
+
+.edit-tables {
+    margin-top: 15px;
+}
+
+.botones {
+    display: flex;
+    justify-content: left;
+}
+
+.botones a {
+    margin-top: 10px; 
+    border-color: black;
+    margin-right: 10px;
+}
+
+.btn.btn-secondary {
+    display: block;
+    background-color: black;
+    margin-top: 20px;
+}
+
+.btn.btn-secondary:hover {
+    color: rgb(255, 0, 0); 
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7); 
+    background-color: black;
+}
+
+h2  {
+    text-align: center;
+}
+
+td a {
+    color: black;
+}
+
+.form-edit{
+    width: 100%;
+}
+
+.form-group {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.show-label {
+    font-size: 150%;
+    padding-top: 10px;
+}

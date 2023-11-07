@@ -1,0 +1,442 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 0px;
+    padding: 0;
+    /* overflow: hidden; */ /* Esta línea está ocultando la barra de desplazamiento */
+    animation: backgroundAnimation 8s infinite alternate; /* Animación de fondo */
+    background-size: 400% 400%; /* Tamaño del fondo */
+}
+
+#app main {
+    padding-bottom: 0px !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+
+.news-container {
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Estilo de cada noticia */
+.news-item {
+    display: inline-block;
+    width: 30%;
+    margin: 10px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+/* Estilo de las imágenes */
+.news-image {
+    width: 100%;
+    height: auto;
+}
+
+/* Estilo del título */
+.news-title {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+/* Estilo del texto de la noticia */
+.news-description {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Estilo de los enlaces */
+.news-link {
+    display: block;
+    text-decoration: none;
+    color: #007bff;
+    margin-top: 10px;
+}
+
+header {
+    background-color: black; /* Fondo negro */
+    color: white; /* Texto en blanco */
+    padding: 10px 0;
+    position: fixed; /* Barra de menú fija */
+    width: 100%; /* Ancho al 100% de la ventana */
+    top: 0; /* Alineado en la parte superior */
+    left: 0; /* Alineado en la izquierda */
+    z-index: 1000; /* Z-index alto para estar por encima de otros elementos */
+    transition: background-color 0.3s; /* Transición de color suave */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7); /* Sombra en el cuadrado negro */
+    font-family: Arial, sans-serif;
+}
+
+/* Resto del código CSS para los enlaces del menú, ya proporcionado en tu mensaje anterior */
+
+/* Estilo de los enlaces del menú */
+.navbar-right a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s; /* Agrega una transición suave para el color */
+}
+
+.navbar-left a.navbar-brand {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s; /* Agrega una transición suave para el color */
+}
+
+/* Cambiar el color de los enlaces al pasar el cursor sobre ellos */
+.navbar-right a:hover {
+    color: rgb(255, 0, 0); /* Cambia el color al rojo al hacer hover */
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7); /* Agrega un efecto de sombra de texto rojo con brillo */
+}
+
+/* Estilo de la barra de navegación */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Estilo de los elementos de menú */
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-left img {
+    width: 30px; /* Ajusta el tamaño según tus preferencias */
+    height: auto; /* Mantén la proporción de aspecto */
+    margin-right: 10px; /* Agrega un margen a la derecha del logotipo si es necesario */
+}
+
+.navbar-left .company-name {
+    font-size: 18px; /* Tamaño de fuente para el nombre de la empresa */
+}
+
+.navbar-right {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar-right li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.navbar-right li:last-child {
+    margin-right: 0;
+}
+
+.navbar-right a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+/* Estilo de enlaces activos (puedes agregar una clase "active" en el enlace actual) */
+.navbar-right a.active {
+    color: white; /* Cambia a color de texto azul para el enlace activo */
+}
+
+/* Estilo de los enlaces del menú */
+.navbar-right a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s, text-shadow 0.3s; /* Agrega transiciones suaves para el color y el texto sombreado */
+}
+
+/* Cambiar el color de los enlaces al pasar el cursor sobre ellos */
+.navbar-right a:hover {
+    color: rgb(255, 0, 0); /* Cambia el color al rojo */
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7); /* Agrega un efecto de sombra de texto rojo con brillo */
+}
+
+/* Estilo para el elemento "dropdown" en la clase "navbar-right" */
+.navbar-right li.nav-item.dropdown {
+    float: right; /* Alinea a la derecha */
+    margin-right: 20px; /* Margen entre "register" y "dropdown" */
+}
+
+/* Estilo para la caja desplegable en el elemento "nav-item dropdown" */
+.nav-item.dropdown .dropdown-menu {
+    background-color: black; /* Cambia el color de fondo a negro */
+    color: white; /* Cambia el color del texto a blanco, si es necesario */
+}
+
+/* Evita que el fondo sea blanco al seleccionar un elemento */
+.nav-item.dropdown .dropdown-menu a:hover {
+    background-color: black; /* Mantén el fondo negro al hacer hover */
+}
+
+/*imagen centrada*/
+
+.cover-image {
+    width: 1000%; 
+    max-width: 100%; 
+    height: auto; 
+    display: block; 
+    margin: 0 auto; 
+}
+/*barra central*/
+.thin-navbar {
+    background-color: black; 
+    color: white;
+    padding: 10px 0; 
+    text-align: center; 
+}
+
+.thin-navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.thin-navbar ul li {
+    display: inline;
+    margin: 0 20px; 
+}
+
+.thin-navbar ul li:first-child {
+    margin-left: 0;
+}
+
+.thin-navbar ul li:last-child {
+    margin-right: 0; 
+}
+
+.thin-navbar ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px; 
+}
+
+.thin-navbar ul li a.active {
+    color: #007bff; 
+}
+
+/* Estilo del contenedor del catálogo */
+.catalog-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+/* Estilo de cada elemento del catálogo */
+.catalog-item {
+    flex-basis: 30%; /* Tamaño de cada elemento (30% del ancho del contenedor) */
+    text-align: center;
+    overflow: hidden; 
+    width: 320px;
+}
+
+/* Estilo de las imágenes en el catálogo */
+.catalog-item img {
+    max-width: 100%; /* Ancho máximo del 100% para que sean responsivas */
+    height: auto; /* Altura automática para mantener la proporción */
+    display: block; /* Elimina el espacio debajo de las imágenes */
+    margin: 0 auto; /* Centra horizontalmente las imágenes */
+}
+
+/* Estilo para el título y el precio */
+.catalog-item a {
+    text-decoration: none;
+    color: #333;
+}
+
+/* Estilo para los números de modelo */
+.catalog-item p {
+    font-size: 14px;
+    text-align: center;
+}
+
+/*el footer con patrocinadores */
+
+footer {
+    background-color: black; /* Fondo negro */
+    color: white; /* Texto blanco */
+    padding: 20px 0; /* Espaciado interno */
+    text-align: center;
+}
+
+/* Estilo del contenido del footer */
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.policy {
+    flex: 1; 
+    margin: 0 20px;
+}
+
+.policy h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.policy p {
+    font-size: 14px;
+}
+
+.sponsors {
+    flex: 1; 
+    margin: 0 20px;
+}
+
+.sponsors h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.sponsors ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sponsors ul li {
+    margin-bottom: 5px;
+}
+
+.sponsors a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Estilo del texto de derechos de autor */
+.copyright {
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+/*quien somos*/
+
+.black-box {
+    background-color: black;
+    color: white;
+    width: 100%;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.container {
+    margin-top: 80px; 
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.form-check-label {
+    float: left;
+}
+
+.btn.btn-primary {
+    float: left;
+    background-color: black;
+}
+
+.btn.btn-link {
+    float: left;
+}
+
+.btn.btn-primary:hover {
+    color: rgb(255, 0, 0); 
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7); 
+    background-color: black;
+}
+
+.vehicle-card {
+    background-color: white;
+    margin: 0 3px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 40px;
+}
+
+.vehicle-card p.title-paragraph {
+    text-align: left;
+    font-size: 130%;
+    padding-top: 20px;
+    padding-left: 20px;
+    white-space: nowrap;
+    margin-bottom: 0 !important;
+}
+
+.details-card {
+    background-color: black;
+    color: white;
+    margin: 0 3px;
+    padding: 5px;
+}
+
+.container-vehicles h2.model-title {
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 200%;
+}
+
+.container-vehicles h2.model-title:not(:first-child) {
+    margin-top: 30px;
+}
+
+.details-card p.detail-paragraph {
+    text-align: left;
+    margin-bottom: 0;
+    padding-left: 15px;
+}
+
+.vehicle-card img.vehicle-image {
+    margin-top: auto;
+    padding: 10px;
+}
+
+.container-vehicles {
+    background-color: #eaeaeae3;
+    font-size: 18px;
+    padding: 20px 5%;
+}
+
+.content-body {
+    margin-top: 34px;
+}

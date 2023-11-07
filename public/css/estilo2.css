@@ -1,0 +1,251 @@
+/* CSS general de la página */
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    /* overflow: hidden; */ /* Esta línea está ocultando la barra de desplazamiento */
+    animation: backgroundAnimation 8s infinite alternate; /* Animación de fondo */
+    background-size: 400% 400%; /* Tamaño del fondo */
+    background-color: white; /* Cambia el color de fondo a blanco o el color que prefieras */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Estilos del encabezado y la barra de menú */
+header {
+    background-color: black; /* Fondo negro */
+    color: white; /* Texto en blanco */
+    padding: 10px 0;
+    position: fixed; /* Barra de menú fija */
+    width: 100%; /* Ancho al 100% de la ventana */
+    top: 0; /* Alineado en la parte superior */
+    left: 0; /* Alineado en la izquierda */
+    z-index: 1000; /* Z-index alto para estar por encima de otros elementos */
+    transition: background-color 0.3s; /* Transición de color suave */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7); /* Sombra en el cuadrado negro */
+}
+
+/* Resto del código CSS para los enlaces del menú, ya proporcionado en tu mensaje anterior */
+
+/* Estilo de los enlaces del menú */
+.navbar-right a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s; /* Agrega una transición suave para el color */
+}
+
+/* Cambiar el color de los enlaces al pasar el cursor sobre ellos */
+.navbar-right a:hover {
+    color: rgb(255, 0, 0); /* Cambia el color al rojo al hacer hover */
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7); /* Agrega un efecto de sombra de texto rojo con brillo */
+}
+
+/* Estilo de la barra de navegación */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Estilo de los elementos de menú */
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-left img {
+    width: 30px; /* Ajusta el tamaño según tus preferencias */
+    height: auto; /* Mantén la proporción de aspecto */
+    margin-right: 10px; /* Agrega un margen a la derecha del logotipo si es necesario */
+}
+
+.navbar-left .company-name {
+    font-size: 18px; /* Tamaño de fuente para el nombre de la empresa */
+}
+
+.navbar-right {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar-right li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.navbar-right li:last-child {
+    margin-right: 0;
+}
+
+.navbar-right a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+/* Estilo de enlaces activos (puedes agregar una clase "active" en el enlace actual) */
+.navbar-right a.active {
+    color: white; /* Cambia a color de texto azul para el enlace activo */
+}
+
+/* Estilo de los enlaces del menú */
+.navbar-right a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s, text-shadow 0.3s; /* Agrega transiciones suaves para el color y el texto sombreado */
+}
+
+/* Cambiar el color de los enlaces al pasar el cursor sobre ellos */
+.navbar-right a:hover {
+    color: rgb(255, 0, 0); /* Cambia el color al rojo */
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7); /* Agrega un efecto de sombra de texto rojo con brillo */
+}
+/* Calendario */
+/* Agregar un estilo para los encabezados h1 de las categorías */
+h1 {
+    font-size: 24px; /* Tamaño del texto del encabezado */
+    margin-top: 20px; /* Espacio en la parte superior del encabezado */
+    margin-bottom: 10px; /* Espacio en la parte inferior del encabezado */
+    text-transform: uppercase; /* Convertir el texto del encabezado a mayúsculas */
+    border-bottom: 2px solid #333; /* Línea inferior */
+    padding-bottom: 5px; /* Espaciado en la parte inferior de la línea */
+}
+
+
+/*el footer con patrocinadores */
+
+footer {
+    background-color: black; /* Fondo negro */
+    color: white; /* Texto blanco */
+    padding: 20px 0; /* Espaciado interno */
+    text-align: center;
+}
+
+/* Estilo del contenido del footer */
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.policy {
+    flex: 1; 
+    margin: 0 20px;
+}
+
+.policy h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.policy p {
+    font-size: 14px;
+}
+
+.sponsors {
+    flex: 1; 
+    margin: 0 20px;
+}
+
+.sponsors h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.sponsors ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sponsors ul li {
+    margin-bottom: 5px;
+}
+
+.sponsors a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Estilo del texto de derechos de autor */
+.copyright {
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+
+/*quien somos*/
+
+.black-box {
+    background-color: black;
+    color: white;
+    width: 100%;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+     /* Estilo para la alineación horizontal */
+        .catalog-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        /* Estilo para cada elemento del catálogo */
+        .catalog-item {
+            text-align: center;
+            width: 23%; /* Ajusta el ancho según tus necesidades */
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Estilo para la imagen del auto */
+        .catalog-item img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Estilo para el título y el precio */
+        .catalog-item a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
