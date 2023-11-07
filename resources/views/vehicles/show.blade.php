@@ -66,7 +66,7 @@
         <input type="hidden" name="vehicle_price" value="{{ $vehicle->price }}">
         <input type="hidden" name="vehicle_name" value="{{ $vehicle->name }}">
         <div class="left-column">
-            <img class="vehicle-photo" src="/media/vehicles/{{ $vehicle->photo }}" alt="{{ $vehicle->name }}">
+            <img class="vehicle-photo" src="/media/vehicles/{{ $vehicle->picture }}" alt="{{ $vehicle->name }}">
         </div>
         <div class="right-column">
             <h2>{{ $vehicle->name }}</h2>

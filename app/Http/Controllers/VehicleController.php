@@ -16,7 +16,7 @@ class VehicleController extends Controller
     public function index()
     {
         $vehicles = Vehicle::all();
-        return view('vehicles.index',compact('vehicles'));
+        return view('vehicles.index', compact('vehicles'));
     }
 
     /**
@@ -24,7 +24,7 @@ class VehicleController extends Controller
      */
     public function create()
     {
-        $concessionaires = Concessionaire::pluck('name','id');
+        $concessionaires = Concessionaire::pluck('name', 'id');
         return view("vehicles.create", compact('concessionaires'));
     }
 
@@ -39,9 +39,16 @@ class VehicleController extends Controller
             'price' => 'required|max:11',
             'motor' => 'required|max:75',
             'production_year' => 'required',
-            'photo' => 'required',
+            'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        
+
+        // Almacenar la imagen
+        if ($request->hasFile('picture')) {
+            $imagePath = $request->file('picture')->store('concessionaires'); // Almacena la imagen en una carpeta 'concessionaires'
+        } else {
+            $imagePath = null; // Si no se proporciona una imagen
+        }
+
         $vehicle = new Vehicle;
         $vehicle->name = $request->name;
         $vehicle->model = $request->model;
@@ -49,12 +56,12 @@ class VehicleController extends Controller
         $vehicle->price = $request->price;
         $vehicle->motor = $request->motor;
         $vehicle->production_year = $request->production_year;
-        $vehicle->photo = $request->photo;
+        $vehicle->picture = $imagePath;
         $vehicle->concessionaire_id = $request->concessionaire_id;
         $vehicle->save();
 
         return redirect()->route('vehicles.index')
-            ->with('success','Vehiculo creado correctamente.');
+            ->with('success', 'Vehiculo creado correctamente.');
     }
 
     /**
@@ -67,12 +74,12 @@ class VehicleController extends Controller
             $query->where('name', $vehicle->name);
         })->get();
 
-        if(Auth::check() && Auth::user()->is_employee) {
-            $customers = Customer::pluck('name','id');
-            return view('vehicles.show',compact('vehicle','concessionaires','customers'));
+        if (Auth::check() && Auth::user()->is_employee) {
+            $customers = Customer::pluck('name', 'id');
+            return view('vehicles.show', compact('vehicle', 'concessionaires', 'customers'));
         }
-        
-        return view('vehicles.show',compact('vehicle','concessionaires'));
+
+        return view('vehicles.show', compact('vehicle', 'concessionaires'));
     }
 
     /**
@@ -80,9 +87,9 @@ class VehicleController extends Controller
      */
     public function edit(string $id)
     {
-        $concessionaires = Concessionaire::pluck('name','id');
+        $concessionaires = Concessionaire::pluck('name', 'id');
         $vehicle = vehicle::findOrFail($id);
-        return view('vehicles.edit',compact('vehicle','concessionaires'));
+        return view('vehicles.edit', compact('vehicle', 'concessionaires'));
     }
 
     /**
@@ -96,9 +103,16 @@ class VehicleController extends Controller
             'price' => 'required|max:11',
             'motor' => 'required|max:75',
             'production_year' => 'required',
-            'photo' => 'required',
+            'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        
+
+        // Almacenar la imagen
+        if ($request->hasFile('picture')) {
+            $imagePath = $request->file('picture')->store('concessionaires'); // Almacena la imagen en una carpeta 'concessionaires'
+        } else {
+            $imagePath = null; // Si no se proporciona una imagen
+        }
+
         $vehicle = Vehicle::findOrFail($id);
         $vehicle->name = $request->name;
         $vehicle->model = $request->model;
@@ -106,12 +120,12 @@ class VehicleController extends Controller
         $vehicle->price = $request->price;
         $vehicle->motor = $request->motor;
         $vehicle->production_year = $request->production_year;
-        $vehicle->photo = $request->photo;
+        $vehicle->picture = $imagePath;
         $vehicle->concessionaire_id = $request->concessionaire_id;
         $vehicle->save();
 
         return redirect()->route('vehicles.index')
-            ->with('success','Vehiculo actualizado correctamente.');
+            ->with('success', 'Vehiculo actualizado correctamente.');
     }
 
     /**
@@ -123,12 +137,11 @@ class VehicleController extends Controller
 
         try {
             $result = $vehicle->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->route('vehicles.index')
+                ->with('error', 'Error borrando el vehiculo');
         }
-        catch(\Illuminate\Database\QueryException $e) {
-                return redirect()->route('vehicles.index')
-                        ->with('error','Error borrando el vehiculo');
-        }   
         return redirect()->route('vehicles.index')
-                        ->with('success','Vehiculo borrado correctamente.'); 
+            ->with('success', 'Vehiculo borrado correctamente.');
     }
 }

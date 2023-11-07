@@ -47,7 +47,7 @@
                     <td>{{ $vehicle->price }}</td>
                     <td>{{ $vehicle->motor }}</td>
                     <td>{{ $vehicle->production_year }}</td>
-                    <td>{{ $vehicle->photo }}</td>
+                    <td>{{ $vehicle->picture }}</td>
                     <td>{{ $vehicle->concessionaire_id }}</td>
                     <td>
                         <a href="{{ route('vehicles.edit',$vehicle->id) }}">Editar</a>
@@ -81,12 +81,12 @@
         <h2 class="model-title">{{ $model }}</h2>
         <div class="catalog-container">
             @foreach($modelVehicles as $vehicle)
-            @if (!in_array($vehicle->photo, $alreadyDisplayedNames))
+            @if (!in_array($vehicle->picture, $alreadyDisplayedNames))
             <div class="catalog-item">
                 <a href="{{ route('vehicles.show',$vehicle->id) }}">
                     <div class="vehicle-card">
                         <p class="title-paragraph">{{ str_replace('Hydra', '', $vehicle->name) }}</p>
-                        <img class="vehicle-image" src="/media/vehicles/{{ $vehicle->photo }}" alt="Auto 1">
+                        <img class="vehicle-image" src="/media/vehicles/{{ $vehicle->picture }}" alt="Auto 1">
                     </div>
                     <div class="details-card">
                         <p class="detail-paragraph">{{ $vehicle->fuel }}</p>
@@ -94,7 +94,7 @@
                     </div>
                 </a>
                 @php
-                $alreadyDisplayedNames[] = $vehicle->photo;
+                $alreadyDisplayedNames[] = $vehicle->picture;
                 @endphp
             </div>
             @endif
