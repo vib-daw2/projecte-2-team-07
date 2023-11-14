@@ -9,8 +9,86 @@
     <link rel="icon" href="/media/photos/10.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        .catalog-item:hover .details-card{
+        .vehicle-item:hover .details-card {
             color: red;
+        }
+
+        .vehicle-card {
+            background-color: white;
+            margin: 0 0.2vw;
+            height: 22vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding-bottom: 2.2vw;
+        }
+
+        .vehicle-card p.title-paragraph {
+            text-align: left;
+            font-size: 1.7vw;
+            padding-top: 1.5vw;
+            padding-left: 1.5vw;
+            white-space: nowrap;
+            margin-bottom: 0 !important;
+        }
+
+        .details-card {
+            background-color: black;
+            color: white;
+            margin: 0 0.2vw;
+            padding: 0.4vw;
+        }
+
+        .container-vehicles h2.model-title {
+            margin-bottom: 1vw;
+            text-align: center;
+            font-size: 3vw;
+        }
+
+        .container-vehicles h2.model-title:not(:first-child) {
+            margin-top: 1.8vw;
+        }
+
+        .details-card p.detail-paragraph {
+            text-align: left;
+            margin-bottom: 0;
+            padding-left: 1vw;
+            font-size: 1vw;
+        }
+
+        .vehicle-card img.vehicle-image {
+            margin-top: auto;
+            padding: 0.4vw;
+        }
+
+        .container-vehicles {
+            background-color: #eaeaeae3;
+            padding: 2vw 5%;
+        }
+
+        .vehicle-item {
+            flex-basis: 30%;
+            text-align: center;
+            overflow: hidden;
+            width: 21vw;
+            border-radius: 2.2vw;
+        }
+
+        .vehicle-item img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .vehicle-item a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .vehicle-item p {
+            font-size: 1vw;
+            text-align: center;
         }
     </style>
 </head>
@@ -82,7 +160,7 @@
         <div class="catalog-container">
             @foreach($modelVehicles as $vehicle)
             @if (!in_array($vehicle->picture, $alreadyDisplayedNames))
-            <div class="catalog-item">
+            <div class="vehicle-item">
                 <a href="{{ route('vehicles.show',$vehicle->id) }}">
                     <div class="vehicle-card">
                         <p class="title-paragraph">{{ str_replace('Hydra', '', $vehicle->name) }}</p>

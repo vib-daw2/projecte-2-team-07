@@ -9,12 +9,14 @@
     <link rel="icon" href="/media/photos/10.ico" type="image/x-icon">
     <style>
         .concessionaire-details {
+            height: 420px;
+            width: 1500px;
             display: flex;
             border: 1px solid #ccc;
             border-radius: 10px;
             padding: 20px;
-            margin: 20px;
-            background-color: #f9f9f9;
+            margin: 10px;
+            background-color: #f1f1f1;;
         }
 
         .left-column {
@@ -23,8 +25,8 @@
         }
 
         .concessionaire-photo {
-            max-width: 100%;
-            height: auto;
+            width: 580px;
+            height: 380px;
             border-radius: 5px;
         }
 
@@ -37,11 +39,12 @@
             font-size: 24px;
             margin-top: 10px;
             padding-left: 20px;
-            padding-bottom: 20px;
+            padding-bottom: 40px;
+            font-weight: bold;
         }
 
         p {
-            margin: 5px 0;
+            margin: 10px 0;
             padding-left: 20px;
         }
 
@@ -50,9 +53,16 @@
             color: #555;
         }
 
-        .concessionaire-dates {
+        .table-button {
             border-top: 1px solid #ccc;
-            padding-top: 10px;
+            padding-top: 20px;
+        }
+
+        .concessionaire-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
@@ -96,25 +106,27 @@
     </div>
 
     @else
-    @foreach ($concessionaires as $concessionaire)
-    <div class="concessionaire-details">
-        <div class="left-column">
-            @php
-            $photoName = "concessionaire" . $loop->iteration . ".jpg";
-            @endphp
-            <img class="concessionaire-photo" src="/media/concessionaires/{{ $photoName }}" alt="{{ $concessionaire->name }}">
-        </div>
-        <div class="right-column">
-            <h2>{{ $concessionaire->name }}</h2>
-            <p><strong>Teléfono:</strong> {{ $concessionaire->phone_number }}</p>
-            <p><strong>Correo Electrónico:</strong> {{ $concessionaire->email }}</p>
-            <p><strong>Dirección:</strong> {{ $concessionaire->address }}</p>
-            <div style="margin-top: 20px;" class="table-button">
-                <a href="{{ route('concessionaires.show',$concessionaire->id) }}" class="btn btn-primary">Saber más</a>
+    <div class="concessionaire-container">
+        @foreach ($concessionaires as $concessionaire)
+        <div class="concessionaire-details">
+            <div class="left-column">
+                @php
+                $photoName = "concessionaire" . $loop->iteration . ".jpg";
+                @endphp
+                <img class="concessionaire-photo" src="/media/concessionaires/{{ $photoName }}" alt="{{ $concessionaire->name }}">
+            </div>
+            <div class="right-column">
+                <h2>{{ $concessionaire->name }}</h2>
+                <p><strong>Teléfono:</strong> {{ $concessionaire->phone_number }}</p>
+                <p><strong>Correo Electrónico:</strong> {{ $concessionaire->email }}</p>
+                <p><strong>Dirección:</strong> {{ $concessionaire->address }}</p>
+                <div style="margin-top: 20px;" class="table-button">
+                    <a href="{{ route('concessionaires.show',$concessionaire->id) }}" class="btn btn-primary">Saber más</a>
+                </div>
             </div>
         </div>
+        @endforeach
     </div>
-    @endforeach
     <footer>
         <div class="footer-content">
             <div class="policy">

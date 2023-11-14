@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/concessionaires/api/index', function () {
+    return view('concessionaires.api.index');
+})->name('comncessionaires-api');
+
 Route::view('/privacy', 'auth.privacy-policy')->name('auth.privacy-policy');
 
 Auth::routes();

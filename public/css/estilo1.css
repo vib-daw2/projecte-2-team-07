@@ -378,64 +378,13 @@ p {
     float: left;
 }
 
-.btn.btn-primary:hover {
-    color: rgb(255, 0, 0); 
-    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7); 
-    background-color: black;
+.btn.btn-primary:hover,
+.btn.btn-primary:active {
+    color: rgb(255, 0, 0) !important; 
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7) !important; 
+    background-color: black !important;
 }
 
-.vehicle-card {
-    background-color: white;
-    margin: 0 3px;
-    height: 350px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding-bottom: 40px;
-}
-
-.vehicle-card p.title-paragraph {
-    text-align: left;
-    font-size: 130%;
-    padding-top: 20px;
-    padding-left: 20px;
-    white-space: nowrap;
-    margin-bottom: 0 !important;
-}
-
-.details-card {
-    background-color: black;
-    color: white;
-    margin: 0 3px;
-    padding: 5px;
-}
-
-.container-vehicles h2.model-title {
-    margin-bottom: 10px;
-    text-align: center;
-    font-size: 200%;
-}
-
-.container-vehicles h2.model-title:not(:first-child) {
-    margin-top: 30px;
-}
-
-.details-card p.detail-paragraph {
-    text-align: left;
-    margin-bottom: 0;
-    padding-left: 15px;
-}
-
-.vehicle-card img.vehicle-image {
-    margin-top: auto;
-    padding: 10px;
-}
-
-.container-vehicles {
-    background-color: #eaeaeae3;
-    font-size: 18px;
-    padding: 20px 5%;
-}
 
 .content-body {
     margin-top: 34px;

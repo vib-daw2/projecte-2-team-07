@@ -27,7 +27,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color:rgb(255, 0, 0); 
 }
 
 table {
@@ -103,10 +103,11 @@ tr:hover {
     margin-top: 20px;
 }
 
-.btn.btn-secondary:hover {
-    color: rgb(255, 0, 0); 
-    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7); 
-    background-color: black;
+.btn.btn-secondary:hover,
+.btn.btn-secondary:active {
+    color: rgb(255, 0, 0) !important; 
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7) !important; 
+    background-color: black !important;
 }
 
 h2  {

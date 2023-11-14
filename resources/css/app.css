@@ -1,0 +1,21 @@
+list {
+    font-size: 1rem;
+    margin: 0;    
+    padding: 0;   
+    display: grid;
+}
+
+concessionaire {
+    padding: 0.5rem 1.5rem 1rem;
+    border-radius: 1.5rem;
+    background: lightgray;
+    min-height: 50px;
+    width: auto;
+}
+
+concessionaire[selected="true"] { background-color: DarkGray; }
+concessionaire[deleted="true"] { background-color: white; }
+
+concessionaire + concessionaire {
+    margin-top: 0.5rem;
+}

@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/concessionaires/all', [App\Http\Controllers\api\ConcesionaireController::class, 'all'])->name('concessionaires.all');
+
+Route::resource('/concessionaires', App\Http\Controllers\api\ConcesionaireController::class);
