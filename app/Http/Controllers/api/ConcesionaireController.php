@@ -15,7 +15,7 @@ class ConcesionaireController extends Controller
     public function index()
     {
         // ordenats per ordre d'inserció
-        $concessionaires = Concessionaire::latest()->paginate(10);
+        $concessionaires = Concessionaire::latest()->paginate(5);
 
         $response = [
             'success' => true,
@@ -78,7 +78,7 @@ class ConcesionaireController extends Controller
 
         $response = [
             'success' => true,
-            'message' => "concessionairea creat correctament",
+            'message' => "Concessionario creado correctamente",
             'data' => $concessionaire,
         ];
 
@@ -193,7 +193,6 @@ class ConcesionaireController extends Controller
             ];
 
             return response()->json($response, 200);
-
         } catch (\Exception $e) {
 
             $response = [

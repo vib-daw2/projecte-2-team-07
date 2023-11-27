@@ -9,7 +9,7 @@ class Concessionaire extends Model
 {
     public $timestamps = true;
     use HasFactory;
-    protected $fillable = ['name','phone_number','email','address'];
+    protected $fillable = ['name','phone_number','email','address','coordinates','picture'];
 
     public function customers()
     {
