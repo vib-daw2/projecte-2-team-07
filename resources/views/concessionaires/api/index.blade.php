@@ -130,11 +130,11 @@
         } else { // Si l'objecte té valor, farem una actualització
             // Recuperem les dades de la caixa i les posem en els atributs de selectedSuperhero
             selectedConcessionaire.name = document.getElementById("nameInput").value
-            selectedConcessionaire.name = document.getElementById("phoneInput").value
-            selectedConcessionaire.name = document.getElementById("emailInput").value
-            selectedConcessionaire.name = document.getElementById("addressInput").value
-            selectedConcessionaire.name = document.getElementById("coordinatesInput").value
-            selectedConcessionaire.name = document.getElementById("pictureInput").value
+            selectedConcessionaire.phone_number = document.getElementById("phoneInput").value
+            selectedConcessionaire.email = document.getElementById("emailInput").value
+            selectedConcessionaire.address = document.getElementById("addressInput").value
+            selectedConcessionaire.coordinates = document.getElementById("coordinatesInput").value
+            selectedConcessionaire.picture = document.getElementById("pictureInput").value
             await updateRegister(selectedConcessionaire);
         }
     }
@@ -385,11 +385,6 @@
         });
 
         concessionaireElementList.appendChild(concessionaireElement);
-    }
-
-    function editConcessionaire(index) {
-        // console.log(index);
-        // console.log(concessionaires[index]);           
     }
 
     async function createListAndPagination() {
