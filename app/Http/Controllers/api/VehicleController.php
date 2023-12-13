@@ -15,7 +15,7 @@ class VehicleController extends Controller
     public function index()
     {
         // ordenats per ordre d'inserció
-        $vehicles = Vehicle::latest()->paginate(5);
+        $vehicles = Vehicle::latest()->paginate(10);
 
         $response = [
             'success' => true,
@@ -24,6 +24,18 @@ class VehicleController extends Controller
         ];
 
         //return $response;
+        return response()->json($response, 200);
+    }
+
+    public function all()
+    {
+        $vehicles = Vehicle::all();
+        $response = [
+            'success' => true,
+            'message' => "Listado vehiculos recuperada",
+            'data' => $vehicles,
+        ];
+
         return response()->json($response, 200);
     }
 
@@ -82,7 +94,7 @@ class VehicleController extends Controller
         if ($vehicle == null) {
             $response = [
                 'success' => false,
-                'message' => "Concesionario no encontrado",
+                'message' => "Vehiculo no encontrado",
                 'data' => [],
             ];
 
@@ -91,7 +103,7 @@ class VehicleController extends Controller
 
         $response = [
             'success' => true,
-            'message' => "Vehiculos encontrado",
+            'message' => "Vehiculo encontrado",
             'data' => $vehicle,
         ];
 
@@ -111,7 +123,46 @@ class VehicleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $vehicle = Vehicle::find($id);
+
+        if ($vehicle == null) {
+            $response = [
+                'success' => false,
+                'message' => "Vehiculo no encontrado",
+                'data' => [],
+            ];
+
+            return response()->json($response, 404);
+        }
+
+        $input = $request->all();
+
+        $validator = Validator::make(
+            $input,
+            [
+                'name' => 'required|min:3|max:70',
+            ]
+        );
+
+        if ($validator->fails()) {
+            $response = [
+                'success' => false,
+                'message' => "Errores de validación",
+                'data' => $validator->errors()->all(),
+            ];
+
+            return response()->json($response, 400);
+        }
+
+        $vehicle->update($input);
+
+        $response = [
+            'success' => true,
+            'message' => "Vehiculo actualizado correctamente",
+            'data' => $vehicle,
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
@@ -119,6 +170,36 @@ class VehicleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $vehicle = Vehicle::find($id);
+
+        if ($vehicle == null) {
+            $response = [
+                'success' => false,
+                'message' => "Concessionario no encontrado",
+                'data' => [],
+            ];
+
+            return response()->json($response, 404);
+        }
+
+        try {
+            $vehicle->delete();
+
+            $response = [
+                'success' => true,
+                'message' => "Concessionario borrado",
+                'data' => $vehicle,
+            ];
+
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+
+            $response = [
+                'success' => false,
+                'message' => "Error borrando Concessionario",
+            ];
+
+            return response()->json($response, 400);
+        }
     }
 }

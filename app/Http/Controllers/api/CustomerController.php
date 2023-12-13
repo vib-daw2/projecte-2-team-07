@@ -4,10 +4,10 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Concessionaire;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Validator;
 
-class ConcesionaireController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,12 @@ class ConcesionaireController extends Controller
     public function index()
     {
         // ordenats per ordre d'inserció
-        $concessionaires = Concessionaire::latest()->paginate(5);
+        $customers = Customer::latest()->paginate(10);
 
         $response = [
             'success' => true,
-            'message' => "Listado concesionarios recuperada",
-            'data' => $concessionaires,
+            'message' => "Listado clientes recuperada",
+            'data' => $customers,
         ];
 
         //return $response;
@@ -28,13 +28,12 @@ class ConcesionaireController extends Controller
     }
 
     public function all()
-
     {
-        $concessionaires = Concessionaire::all();
+        $customers = Customer::all();
         $response = [
             'success' => true,
-            'message' => "Listado concesionarios recuperada",
-            'data' => $concessionaires,
+            'message' => "Listado clientes recuperada",
+            'data' => $customers,
         ];
 
         return response()->json($response, 200);
@@ -53,36 +52,36 @@ class ConcesionaireController extends Controller
      */
     public function store(Request $request)
     {
-        // validar camps
-        $input = $request->all();
+         // validar camps
+         $input = $request->all();
 
-        $validator = Validator::make(
-            $input,
-            [
-                'name' => 'required|min:3|max:70',
-            ]
-        );
-
-        if ($validator->fails()) {
-            $response = [
-                'success' => false,
-                'message' => "Errors de validació",
-                'data' => $validator->errors()->all(),
-            ];
-
-            return response()->json($response, 400);
-        }
-
-        // [ "name"=>"concessionairea1", .......]
-        $concessionaire = Concessionaire::create($input);
-
-        $response = [
-            'success' => true,
-            'message' => "Concessionario creado correctamente",
-            'data' => $concessionaire,
-        ];
-
-        return response()->json($response, 200);
+         $validator = Validator::make(
+             $input,
+             [
+                 'name' => 'required|min:3|max:70',
+             ]
+         );
+ 
+         if ($validator->fails()) {
+             $response = [
+                 'success' => false,
+                 'message' => "Errors de validació",
+                 'data' => $validator->errors()->all(),
+             ];
+ 
+             return response()->json($response, 400);
+         }
+ 
+         // [ "name"=>"customers", .......]
+         $customer = Customer::create($input);
+ 
+         $response = [
+             'success' => true,
+             'message' => "Cliente creado correctamente",
+             'data' => $customer,
+         ];
+ 
+         return response()->json($response, 200);
     }
 
     /**
@@ -90,12 +89,12 @@ class ConcesionaireController extends Controller
      */
     public function show(string $id)
     {
-        $concessionaire = Concessionaire::find($id);
+        $customer = Customer::find($id);
 
-        if ($concessionaire == null) {
+        if ($customer == null) {
             $response = [
                 'success' => false,
-                'message' => "Concesionario no encontrado",
+                'message' => "Cliente no encontrado",
                 'data' => [],
             ];
 
@@ -104,8 +103,8 @@ class ConcesionaireController extends Controller
 
         $response = [
             'success' => true,
-            'message' => "Concesionario encontrado",
-            'data' => $concessionaire,
+            'message' => "Cliente encontrado",
+            'data' => $customer,
         ];
 
         return response()->json($response, 200);
@@ -124,12 +123,12 @@ class ConcesionaireController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $concessionaire = Concessionaire::find($id);
+        $customer = Customer::find($id);
 
-        if ($concessionaire == null) {
+        if ($customer == null) {
             $response = [
                 'success' => false,
-                'message' => "Concessionario no encontrado",
+                'message' => "Cliente no encontrado",
                 'data' => [],
             ];
 
@@ -155,12 +154,12 @@ class ConcesionaireController extends Controller
             return response()->json($response, 400);
         }
 
-        $concessionaire->update($input);
+        $customer->update($input);
 
         $response = [
             'success' => true,
-            'message' => "Concesionario actualizado correctamente",
-            'data' => $concessionaire,
+            'message' => "Cliente actualizado correctamente",
+            'data' => $customer,
         ];
 
         return response()->json($response, 200);
@@ -171,12 +170,12 @@ class ConcesionaireController extends Controller
      */
     public function destroy(string $id)
     {
-        $concessionaire = Concessionaire::find($id);
+        $customer = Customer::find($id);
 
-        if ($concessionaire == null) {
+        if ($customer == null) {
             $response = [
                 'success' => false,
-                'message' => "Concessionario no encontrado",
+                'message' => "Cliente no encontrado",
                 'data' => [],
             ];
 
@@ -184,12 +183,12 @@ class ConcesionaireController extends Controller
         }
 
         try {
-            $concessionaire->delete();
+            $customer->delete();
 
             $response = [
                 'success' => true,
-                'message' => "Concessionario borrado",
-                'data' => $concessionaire,
+                'message' => "Cliente borrado",
+                'data' => $customer,
             ];
 
             return response()->json($response, 200);
@@ -197,7 +196,7 @@ class ConcesionaireController extends Controller
 
             $response = [
                 'success' => false,
-                'message' => "Error borrando Concessionario",
+                'message' => "Error borrando Cliente",
             ];
 
             return response()->json($response, 400);

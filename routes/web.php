@@ -21,6 +21,10 @@ Route::get('/concessionaires/api/index', function () {
     return view('concessionaires.api.index');
 })->name('comncessionaires-api');
 
+Route::get('/vehicles/api/index', function () {
+    return view('vehicles.api.index');
+})->name('vehicles-api');
+
 Route::view('/privacy', 'auth.privacy-policy')->name('auth.privacy-policy');
 
 Auth::routes();

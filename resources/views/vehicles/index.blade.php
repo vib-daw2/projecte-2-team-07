@@ -12,6 +12,10 @@
         .vehicle-item:hover .details-card {
             color: red;
         }
+        
+        .vehicle-item:hover {
+            transform: scale(1.1);
+        }
 
         .vehicle-card {
             background-color: white;

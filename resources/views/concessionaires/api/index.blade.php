@@ -18,8 +18,24 @@
     <div id="container" class="container">
         <h1 class="pb-2">Concesionarios</h1>
         <div class="row mt-2">
+            <div class="col-3">
+                <div class="card  rounded-0">
+                    <div class="card-header bg-dark text-white  rounded-0">
+                        <label class="fw-bold text-uppercase">Nombre</label>
+                    </div>
+                    <list id="concessionairesList"></list>
+                </div>
+                <!-- Barra navegació -->
+                <div class="mt-4 p-2 border">
+                    <paginacio class="pagination justify-content-center" id="pagination-numbers">
+                    </paginacio>
+                </div>
+                <!-- zona Missatges -->
+                <div id="messagesDiv" class="border p-2 mt-4 rounded-0"></div>
+            </div>
+
             <!-- Formulari alta/actualització  -->
-            <div class="col-6">
+            <div class="col-9">
                 <div class="card  rounded-0">
                     <div class="card-header bg-dark text-white  rounded-0">
                         <label id="operationLabel" class="fw-bold text-uppercase">Operation</label>
@@ -27,52 +43,89 @@
                     <div class="card-body div-form">
                         <form>
                             <div class="row mb-3">
-                                <label class="col-md-4 col-form-label text-md-end">Nombre Concesionario</label>
-                                <div class="col-md-6">
-                                    <input type="text" name="name" id="nameInput" class="form-control" />
+                                <label class="col-md-2 col-form-label text-md-end">Nombre</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="name" id="nameInput" class="form-control mb-2" />
                                 </div>
-                                <label class="col-md-4 col-form-label text-md-end">Teléfono</label>
-                                <div class="col-md-6">
-                                    <input type="text" name="phone_number" id="phoneInput" class="form-control" />
+                                <label class="col-md-2 col-form-label text-md-end">Teléfono</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="phone_number" id="phoneInput" class="form-control mb-2" />
                                 </div>
-                                <label class="col-md-4 col-form-label text-md-end">Correo electrónico</label>
-                                <div class="col-md-6">
-                                    <input type="text" name="email" id="emailInput" class="form-control" />
+                                <label class="col-md-2 col-form-label text-md-end">Correo electrónico</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="email" id="emailInput" class="form-control mb-2" />
                                 </div>
-                                <label class="col-md-4 col-form-label text-md-end">Dirección</label>
-                                <div class="col-md-6">
-                                    <input type="text" name="address" id="addressInput" class="form-control" />
+                                <label class="col-md-2 col-form-label text-md-end">Dirección</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="address" id="addressInput" class="form-control mb-2" />
                                 </div>
-                                <label class="col-md-4 col-form-label text-md-end">Coordenadas</label>
-                                <div class="col-md-6">
-                                    <input type="text" name="coordinates" id="coordinatesInput" class="form-control" />
+                                <label class="col-md-2 col-form-label text-md-end">Coordenadas</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="coordinates" id="coordinatesInput" class="form-control mb-2" />
                                 </div>
-                                <label class="col-md-4 col-form-label text-md-end">Foto</label>
-                                <div class="col-md-6">
-                                    <input type="text" name="picture" id="pictureInput" class="form-control" />
+                                <label class="col-md-2 col-form-label text-md-end">Foto</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="picture" id="pictureInput" class="form-control mb-2" />
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-md-2 col-form-label text-md-end">Clientes</label>
+                                <div class="col-md-4">
+                                    <select id="customersOutput" class="form-control" size="8" name="customers[]" multiple>
+                                        <option></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 d-flex flex-column align-items-center justify-content-center">
+                                    <button id="addButton" type="button" class="btn btn-primary rounded-circle mb-2" style="width: 35px;">+</button>
+                                    <button id="removeButton" type="button" class="btn btn-secondary rounded-circle" style="width: 35px;">-</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="customersInput" class="form-control" size="8" name="customers[]" multiple>
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-md-2 col-form-label text-md-end">Vehiculos</label>
+                                <div class="col-md-4">
+                                    <select id="vehiclesOutput" class="form-control" size="8" name="customers[]" multiple>
+                                        <option></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 d-flex flex-column align-items-center justify-content-center">
+                                    <button id="addVehiclesButton" type="button" class="btn btn-primary rounded-circle mb-2" style="width: 35px;">+</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="vehiclesInput" class="form-control" size="8" name="customers[]" multiple>
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-md-2 col-form-label text-md-end">Empleados</label>
+                                <div class="col-md-4">
+                                    <select id="employeesOutput" class="form-control" size="8" name="customers[]" multiple>
+                                        <option></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 d-flex flex-column align-items-center justify-content-center">
+                                    <button id="addEmployeesButton" type="button" class="btn btn-primary rounded-circle mb-2" style="width: 35px;">+</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="employeesInput" class="form-control" size="8" name="customers[]" multiple>
+                                        <option></option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row mb-0">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="button" id="saveButton" class="btn btn-primary me-2">Desar</button>
-                                    <button type="button" id="cancelButton" class="btn btn-secondary me-2">Cancel·lar</button>
-                                    <button type="button" id="deleteButton" class="btn btn-danger">Esborrar</button>
+                                    <button type="button" id="saveButton" class="btn btn-primary me-2">Guardar</button>
+                                    <button type="button" id="cancelButton" class="btn btn-secondary me-2">Cancelar</button>
+                                    <button type="button" id="deleteButton" class="btn btn-danger">Borrar</button>
                                 </div>
                             </div>
                         </form>
                     </div>
-                </div>
-                <!-- zona Missatges -->
-                <div id="messagesDiv" class="border p-2 mt-4 rounded-0">
-                </div>
-            </div>
-            <div class="col-6">
-                <list id="concessionairesList">
-                </list>
-                <!-- Barra navegació -->
-                <div class="mt-4 p-2 border">
-                    <paginacio class="pagination justify-content-center" id="pagination-numbers">
-                    </paginacio>
                 </div>
             </div>
         </div>
@@ -86,6 +139,14 @@
     cancelButton.addEventListener('click', resetButton);
     const deleteButton = document.getElementById('deleteButton');
     deleteButton.addEventListener('click', deleteRegister);
+    const addButton = document.getElementById('addButton');
+    addButton.addEventListener('click', addCustomers);
+    const removeButton = document.getElementById('removeButton');
+    removeButton.addEventListener('click', removeCustomers);
+    const addVehiclesButton = document.getElementById('addVehiclesButton');
+    addVehiclesButton.addEventListener('click', addVehicles);
+    const addEmployeesButton = document.getElementById('addEmployeesButton');
+    addEmployeesButton.addEventListener('click', addEmployees);
 
     // url per accedir a l'API
     const url = 'http://localhost:8000/api/concessionaires';
@@ -128,7 +189,7 @@
             await newRegister(newConcessionaire);
 
         } else { // Si l'objecte té valor, farem una actualització
-            // Recuperem les dades de la caixa i les posem en els atributs de selectedSuperhero
+            // Recuperem les dades de la caixa i les posem en els atributs de concessionaire
             selectedConcessionaire.name = document.getElementById("nameInput").value
             selectedConcessionaire.phone_number = document.getElementById("phoneInput").value
             selectedConcessionaire.email = document.getElementById("emailInput").value
@@ -139,8 +200,140 @@
         }
     }
 
-    async function newRegister(newData) {
+    async function addCustomers(event) {
+        var selectedCustomers = Array.from(document.getElementById('customersInput').selectedOptions).map(option => option.value);
 
+        if (!selectedCustomers || selectedCustomers.length === 0) {
+            alert('Selecciona al menos un cliente');
+            return;
+        }
+
+        var jsonData = {
+            customers: selectedCustomers
+        };
+
+        try {
+            const response = await fetch(url + '/' + selectedConcessionaire.id + '/attach-customers', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(jsonData)
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                getCustomers();
+                showMessages('message', 'Clientes añadidos correctamente');
+            } else {
+                showMessages('error', data.data);
+            }
+        } catch (error) { // Errors de xarxa
+            showMessages('error', 'Error accedint a les dades remotes.');
+        }
+    }
+
+    async function removeCustomers(event) {
+        var selectedCustomers = Array.from(document.getElementById('customersOutput').selectedOptions).map(option => option.value);
+
+        if (!selectedCustomers || selectedCustomers.length === 0) {
+            alert('Selecciona al menos un cliente');
+            return;
+        }
+
+        var jsonData = {
+            customers: selectedCustomers
+        };
+
+        try {
+            const response = await fetch(url + '/' + selectedConcessionaire.id + '/detach-customers', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(jsonData)
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                getCustomers();
+                showMessages('message', 'Clientes quitados correctamente');
+            } else {
+                showMessages('error', data.data);
+            }
+        } catch (error) { // Errors de xarxa
+            showMessages('error', 'Error accedint a les dades remotes.');
+        }
+    }
+
+    async function addVehicles(event) {
+        var selectedVehicles = Array.from(document.getElementById('vehiclesInput').selectedOptions).map(option => option.value);
+
+        if (!selectedVehicles || selectedVehicles.length === 0) {
+            alert('Selecciona al menos un cliente');
+            return;
+        }
+
+        var jsonData = {
+            vehicles: selectedVehicles
+        };
+
+        try {
+            const response = await fetch(url + '/' + selectedConcessionaire.id + '/add-vehicles', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(jsonData)
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                getVehicles();
+                showMessages('message', 'Vehiculo añadido correctamente');
+            } else {
+                showMessages('error', data.data);
+            }
+        } catch (error) { // Errors de xarxa
+            showMessages('error', 'Error accedint a les dades remotes.');
+        }
+    }
+
+    async function addEmployees(event) {
+        var selectedEmployees = Array.from(document.getElementById('employeesInput').selectedOptions).map(option => option.value);
+
+        if (!selectedEmployees || selectedEmployees.length === 0) {
+            alert('Selecciona al menos un cliente');
+            return;
+        }
+
+        var jsonData = {
+            employees: selectedEmployees
+        };
+
+        try {
+            const response = await fetch(url + '/' + selectedConcessionaire.id + '/add-employees', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(jsonData)
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                getEmployees();
+                showMessages('message', 'Empleado añadido correctamente');
+            } else {
+                showMessages('error', data.data);
+            }
+        } catch (error) { // Errors de xarxa
+            showMessages('error', 'Error accedint a les dades remotes.');
+        }
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -189,6 +382,12 @@
         addressInput.value = "";
         coordinatesInput.value = "";
         pictureInput.value = "";
+        employeesInput.innerHTML = '';
+        employeesOutput.innerHTML = '';
+        customersInput.innerHTML = '';
+        customersOutput.innerHTML = '';
+        vehiclesInput.innerHTML = '';
+        vehiclesOutput.innerHTML = '';
         // deshabilita botons de cance·lar i esborrar            
         //deleteButton.classList.add("invisible"); // classe Bootstrap
         deleteButton.style.visibility = 'hidden';
@@ -201,11 +400,6 @@
             currentElement.removeAttribute("selected");
         }
         selectedConcessionaire = undefined;
-    }
-
-    async function deleteRegister(event) {
-        event.preventDefault();
-        console.log('borramos....');
     }
 
     /////////////////////////////////////////////////////////////////////
@@ -346,21 +540,7 @@
         await getList(url);
         //... concessionaires, per_page, last_page disponibles ...  
         loadIntoList()
-
-        // encara no tenim pagination 
     }
-
-
-    // Per provar:
-
-    // Amagar en Bootstrap
-    // document.getElementById('messagesDiv').classList.add("d-none"); 
-    // Amagar element Javascript
-    //document.getElementById('messagesDiv').style.display = "none";
-
-    // showMessages("message","Bon dia!!")
-    // showMessages("error","Uppss! Fa fred!!")
-    // showMessages("error", ["plou", "fa fred", "tinc febre"])
 
     getList(url);
     // Que surt per la consola si fem aquí:  console.log(concessionaires); per que ??
@@ -423,41 +603,149 @@
             concessionaireElements[j].innerHTML = "";
         }
     }
-    
+
     function createPaginationBar() {
-          
         const prevButton = document.createElement("button");
-        prevButton.innerHTML = "<"; 
+        prevButton.innerHTML = "<";
         prevButton.classList.add("navbutton");
-        
+
+        const spanElement = document.createElement('span');
+        spanElement.classList.add('page-number');
+
         const nextButton = document.createElement("button");
-        nextButton.innerHTML = ">"; 
+        nextButton.innerHTML = ">";
         nextButton.classList.add("navbutton");
 
-        prevButton.addEventListener("click", function () {     
+        prevButton.addEventListener("click", function() {
             setCurrentPage(currentPage - 1);
+            updatePageNumber(); // Actualizar el número de página después de cambiar de página
         });
 
-        nextButton.addEventListener("click", function()  {           
+        nextButton.addEventListener("click", function() {
             setCurrentPage(currentPage + 1);
-        });            
+            updatePageNumber(); // Actualizar el número de página después de cambiar de página
+        });
 
         const paginationNumbers = document.getElementById("pagination-numbers");
-        paginationNumbers.appendChild(prevButton); 
+        paginationNumbers.appendChild(prevButton);
+        paginationNumbers.appendChild(spanElement);
         paginationNumbers.appendChild(nextButton);
 
+        // Función para actualizar el número de página en el spanElement
+        const updatePageNumber = () => {
+            const textNode = document.createTextNode(`${currentPage}`);
+            // Eliminar el contenido actual antes de agregar el nuevo nodo de texto
+            while (spanElement.firstChild) {
+                spanElement.removeChild(spanElement.firstChild);
+            }
+            spanElement.appendChild(textNode);
+        };
+
+        // Llamar a updatePageNumber inicialmente para establecer el número de página
+        updatePageNumber();
     }
 
-    async function setCurrentPage(pageNum)  {
+    async function setCurrentPage(pageNum) {
         // Actualitzar la pàgina actual
-        if(pageNum<1 || pageNum>last_page) return;
+        if (pageNum < 1 || pageNum > last_page) return;
 
         currentPage = pageNum;
-        
+
         // Carregar dades a la taula, passant la pàgina que vull obtenir
-        await getList(url+'?page='+currentPage) ;
-        loadIntoList();              
+        await getList(url + '?page=' + currentPage);
+        loadIntoList();
     }
+
+    function getCustomers() {
+
+        fetch(url + '/' + selectedConcessionaire.id + '/edit-customers')
+            .then(response => response.json())
+            .then(data => {
+                const customersOut = data.data[1]; // Extraer los segundos clientes de la respuesta
+                const customersIn = data.data[0].customers;
+
+                customersInput.innerHTML = ''; // Limpiar opciones existentes
+                customersOutput.innerHTML = ''; // Limpiar opciones existentes
+
+                // Iterar sobre la lista de clientes y agregar opciones al <select>
+                customersIn.forEach(customer => {
+                    const option = document.createElement('option');
+                    option.value = customer.id;
+                    option.text = customer.name;
+                    customersOutput.appendChild(option);
+                });
+
+                // Iterar sobre la lista de clientes y agregar opciones al <select>
+                customersOut.forEach(customer => {
+                    const option = document.createElement('option');
+                    option.value = customer.id;
+                    option.text = customer.name;
+                    customersInput.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error buscando clientes:', error));
+    }
+
+    function getVehicles() {
+
+        fetch(url + '/' + selectedConcessionaire.id + '/edit-vehicles')
+            .then(response => response.json())
+            .then(data => {
+                const vehiclesOut = data.data.vehicles; // Extraer los segundos vehiculos de la respuesta
+                const vehiclesIn = data.data.concessionaire.vehicles;
+
+                vehiclesInput.innerHTML = ''; // Limpiar opciones existentes
+                vehiclesOutput.innerHTML = ''; // Limpiar opciones existentes
+
+                // Iterar sobre la lista de clientes y agregar opciones al <select>
+                vehiclesIn.forEach(vehicle => {
+                    const option = document.createElement('option');
+                    option.value = vehicle.id;
+                    option.text = vehicle.name;
+                    vehiclesOutput.appendChild(option);
+                });
+
+                // Iterar sobre la lista de clientes y agregar opciones al <select>
+                vehiclesOut.forEach(vehicle => {
+                    const option = document.createElement('option');
+                    option.value = vehicle.id;
+                    option.text = `${vehicle.name} (${vehicle.concessionaire_id})`;
+                    vehiclesInput.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error buscando vehicles:', error));
+    }
+
+    function getEmployees() {
+
+        fetch(url + '/' + selectedConcessionaire.id + '/edit-employees')
+            .then(response => response.json())
+            .then(data => {
+                const employeesOut = data.data.employees; // Extraer los segundos vehiculos de la respuesta
+                const employeesIn = data.data.concessionaire.employees;
+
+                employeesInput.innerHTML = ''; // Limpiar opciones existentes
+                employeesOutput.innerHTML = ''; // Limpiar opciones existentes
+
+                // Iterar sobre la lista de clientes y agregar opciones al <select>
+                employeesIn.forEach(vehicle => {
+                    const option = document.createElement('option');
+                    option.value = vehicle.id;
+                    option.text = vehicle.name;
+                    employeesOutput.appendChild(option);
+                });
+
+                // Iterar sobre la lista de clientes y agregar opciones al <select>
+                employeesOut.forEach(vehicle => {
+                    const option = document.createElement('option');
+                    option.value = vehicle.id;
+                    option.text = `${vehicle.name} (${vehicle.concessionaire_id})`;
+                    employeesInput.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error buscando employees:', error));
+    }
+
 
     function editConcessionaire(index) {
 
@@ -489,6 +777,11 @@
         const addressInput = document.getElementById('addressInput');
         const coordinatesInput = document.getElementById('coordinatesInput');
         const pictureInput = document.getElementById('pictureInput');
+
+        getCustomers();
+        getVehicles();
+        getEmployees();
+
         nameInput.value = selectedConcessionaire.name;
         phoneInput.value = selectedConcessionaire.phone_number;
         emailInput.value = selectedConcessionaire.email;
@@ -506,6 +799,6 @@
     }
 
     createListAndPagination();
-    reset();  // mateix codi que reset(), sense paràmetre event!!
+    reset(); // mateix codi que reset(), sense paràmetre event!!
 </script>
 @endsection
