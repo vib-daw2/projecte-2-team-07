@@ -25,6 +25,14 @@ Route::get('/vehicles/api/index', function () {
     return view('vehicles.api.index');
 })->name('vehicles-api');
 
+Route::get('/customers/api/index', function () {
+    return view('customers.api.index');
+})->name('customers-api');
+
+Route::get('/employees/api/index', function () {
+    return view('employees.api.index');
+})->name('employees-api');
+
 Route::view('/privacy', 'auth.privacy-policy')->name('auth.privacy-policy');
 
 Auth::routes();

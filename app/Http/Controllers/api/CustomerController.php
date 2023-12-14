@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\Concessionaire;
 use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
@@ -52,36 +53,36 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-         // validar camps
-         $input = $request->all();
+        // validar camps
+        $input = $request->all();
 
-         $validator = Validator::make(
-             $input,
-             [
-                 'name' => 'required|min:3|max:70',
-             ]
-         );
- 
-         if ($validator->fails()) {
-             $response = [
-                 'success' => false,
-                 'message' => "Errors de validació",
-                 'data' => $validator->errors()->all(),
-             ];
- 
-             return response()->json($response, 400);
-         }
- 
-         // [ "name"=>"customers", .......]
-         $customer = Customer::create($input);
- 
-         $response = [
-             'success' => true,
-             'message' => "Cliente creado correctamente",
-             'data' => $customer,
-         ];
- 
-         return response()->json($response, 200);
+        $validator = Validator::make(
+            $input,
+            [
+                'name' => 'required|min:3|max:70',
+            ]
+        );
+
+        if ($validator->fails()) {
+            $response = [
+                'success' => false,
+                'message' => "Errors de validació",
+                'data' => $validator->errors()->all(),
+            ];
+
+            return response()->json($response, 400);
+        }
+
+        // [ "name"=>"customers", .......]
+        $customer = Customer::create($input);
+
+        $response = [
+            'success' => true,
+            'message' => "Cliente creado correctamente",
+            'data' => $customer,
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
@@ -201,5 +202,85 @@ class CustomerController extends Controller
 
             return response()->json($response, 400);
         }
+    }
+
+    public function editConcessionaires(Customer $customer)
+    {
+        if ($customer == null) {
+            $response = [
+                'success' => false,
+                'message' => "Cliente no encontrado",
+                'data' => [],
+            ];
+
+            return response()->json($response, 404);
+        }
+
+        $arrayId = $customer->concessionaires->pluck('id');
+        $concessionaires = Concessionaire::whereNotIn('id', $arrayId)->get();
+
+        $response = [
+            'success' => true,
+            'message' => 'Concesionarios encontrados correctamente',
+            'data' => [$customer, $concessionaires]
+        ];
+
+        return response()->json($response, 200);
+    }
+
+    public function attachConcessionaires(Request $request, Customer $customer)
+    {
+        if ($customer == null) {
+            $response = [
+                'success' => false,
+                'message' => "Cliente no encontrado",
+                'data' => [],
+            ];
+
+            return response()->json($response, 404);
+        }
+
+        $request->validate([
+            'concessionaires' => 'exists:concessionaires,id',
+        ]);
+
+        $customer->concessionaires()->attach($request->concessionaires);
+
+        $response = [
+            'success' => true,
+            'message' => 'Concesionarios asignados correctamente',
+            'data' => $customer,
+        ];
+
+        return response()->json($response, 200);
+    }
+
+    public function detachConcessionaires(Request $request, Customer $customer)
+    {
+        if ($customer == null) {
+            $response = [
+                'success' => false,
+                'message' => "Cliente no encontrado",
+                'data' => [],
+            ];
+
+            return response()->json($response, 404);
+        }
+
+        $request->validate([
+            'concessionaires' => 'exists:concessionaires,id',
+        ]);
+
+        if ($request->has('concessionaires')) {
+            $customer->concessionaires()->detach($request->concessionaires);
+        }
+
+        $response = [
+            'success' => true,
+            'message' => 'Concesionarios extraídos correctamente',
+            'data' => $customer,
+        ];
+
+        return response()->json($response, 200);
     }
 }

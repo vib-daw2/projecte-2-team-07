@@ -16,7 +16,7 @@
 
 <body>
     <div id="container" class="container">
-        <h1 class="pb-2">Vehiculos</h1>
+        <h1 class="pb-2">Empleados</h1>
         <div class="row mt-2">
             <div class="col-5">
                 <div class="card  rounded-0">
@@ -30,7 +30,7 @@
                             </div>
                         </div>
                     </div>
-                    <list id="vehiclesList"></list>
+                    <list id="employeesList"></list>
                 </div>
                 <!-- Barra navegació -->
                 <div class="mt-4 p-2 border">
@@ -48,43 +48,33 @@
                     <div class="card-body div-form">
                         <form>
                             <div class="row mb-3">
-                                <label class="col-md-3 col-form-label text-md-end">Nombre Vehiculo</label>
+                                <label class="col-md-3 col-form-label text-md-end">Nombre Empleado</label>
                                 <div class="col-md-7">
                                     <input type="text" name="name" id="nameInput" class="form-control mb-2" />
                                 </div>
-                                <label class="col-md-3 col-form-label text-md-end">Modelo</label>
+                                <label class="col-md-3 col-form-label text-md-end">Teléfono</label>
                                 <div class="col-md-7">
-                                    <select name="model" id="modelInput" class="form-control mb-2" required>
-                                        <option value="Crossover">Crossover</option>
-                                        <option value="Sedan">Sedan</option>
-                                        <option value="Sport">Sport</option>
-                                        <option value="Coupe">Coupe</option>
-                                    </select>
+                                    <input type="text" name="phone_number" id="phoneInput" class="form-control mb-2" />
                                 </div>
-                                <label class="col-md-3 col-form-label text-md-end">Combustible</label>
+                                <label class="col-md-3 col-form-label text-md-end">Correo electrónico</label>
                                 <div class="col-md-7">
-                                    <select name="fuel" id="fuelInput" class="form-control mb-2" required>
-                                        <option value="Gasolina">Gasolina</option>
-                                        <option value="Diésel">Diésel</option>
-                                        <option value="Hibrido">Hibrido</option>
-                                        <option value="Eléctrico">Eléctrico</option>
-                                    </select>
+                                    <input type="text" name="email" id="emailInput" class="form-control mb-2" />
                                 </div>
-                                <label class="col-md-3 col-form-label text-md-end">Precio</label>
+                                <label class="col-md-3 col-form-label text-md-end">Dirección</label>
                                 <div class="col-md-7">
-                                    <input type="text" name="price" id="priceInput" class="form-control mb-2" />
+                                    <input type="text" name="address" id="addressInput" class="form-control mb-2" />
                                 </div>
-                                <label class="col-md-3 col-form-label text-md-end">Motor</label>
+                                <label class="col-md-3 col-form-label text-md-end">Cargo</label>
                                 <div class="col-md-7">
-                                    <input type="text" name="motor" id="motorInput" class="form-control mb-2" />
+                                    <input type="text" name="charge" id="chargeInput" class="form-control mb-2" />
                                 </div>
-                                <label class="col-md-3 col-form-label text-md-end">Año de producción</label>
+                                <label class="col-md-3 col-form-label text-md-end">Departamento</label>
                                 <div class="col-md-7">
-                                    <input type="text" name="production_year" id="productionYearInput" class="form-control mb-2" />
+                                    <input type="text" name="department" id="departmentInput" class="form-control mb-2" />
                                 </div>
-                                <label class="col-md-3 col-form-label text-md-end">Foto</label>
+                                <label class="col-md-3 col-form-label text-md-end">User ID</label>
                                 <div class="col-md-7">
-                                    <input type="text" name="picture" id="pictureInput" class="form-control mb-2" />
+                                    <input type="text" name="user_id" id="userInput" class="form-control mb-2" />
                                 </div>
                                 <label class="col-md-3 col-form-label text-md-end">Concesionario</label>
                                 <div class="col-md-7">
@@ -120,7 +110,7 @@
     deleteButton.addEventListener('click', deleteRegister);
 
     // url per accedir a l'API
-    const url = 'http://localhost:8000/api/vehicles';
+    const url = 'http://localhost:8000/api/employees';
 
     // Número pàgines del llistat
     let last_page = 0;
@@ -128,10 +118,10 @@
     let per_page = 0;
     // Pàgina actual
     let currentPage = 1;
-    // llista de vehicles
-    let vehicles = [];
-    // Referència al vehicle seleccionat
-    let selectedVehicle;
+    // llista de employees
+    let employees = [];
+    // Referència al employee seleccionat
+    let selectedEmployee;
 
     let concessionaires = [];
 
@@ -149,31 +139,31 @@
     //////////////////////////////////////////////////////////////////////
     async function saveRegister(event) {
         event.preventDefault()
-        if (selectedVehicle === undefined) {
-            newVehicle = {
+        if (selectedEmployee === undefined) {
+            newEmployee = {
                 id: undefined,
                 name: document.getElementById("nameInput").value,
-                model: document.getElementById("modelInput").value,
-                fuel: document.getElementById("fuelInput").value,
-                price: document.getElementById("priceInput").value,
-                motor: document.getElementById("motorInput").value,
-                production_year: document.getElementById("productionYearInput").value,
-                picture: document.getElementById("pictureInput").value,
+                phone_number: document.getElementById("phoneInput").value,
+                email: document.getElementById("emailInput").value,
+                address: document.getElementById("addressInput").value,
+                user_id: document.getElementById("userInput").value,
+                charge: document.getElementById("chargeInput").value,
+                department: document.getElementById("departmentInput").value,
                 concessionaire_id: document.getElementById("concessionaireInput").value
             }
-            await newRegister(newVehicle);
+            await newRegister(newEmployee);
 
         } else { // Si l'objecte té valor, farem una actualització
             // Recuperem les dades de la caixa i les posem en els atributs de selectedSuperhero
-            selectedVehicle.name = document.getElementById("nameInput").value
-            selectedVehicle.model = document.getElementById("modelInput").value
-            selectedVehicle.fuel = document.getElementById("fuelInput").value
-            selectedVehicle.price = document.getElementById("priceInput").value
-            selectedVehicle.motor = document.getElementById("motorInput").value
-            selectedVehicle.production_year = document.getElementById("productionYearInput").value
-            selectedVehicle.picture = document.getElementById("pictureInput").value
-            selectedVehicle.concessionaire_id = document.getElementById("concessionaireInput").value
-            await updateRegister(selectedVehicle);
+            selectedEmployee.name = document.getElementById("nameInput").value
+            selectedEmployee.phone_number = document.getElementById("phoneInput").value
+            selectedEmployee.email = document.getElementById("emailInput").value
+            selectedEmployee.address = document.getElementById("addressInput").value
+            selectedEmployee.user_id = document.getElementById("userInput").value
+            selectedEmployee.charge = document.getElementById("chargeInput").value
+            selectedEmployee.department = document.getElementById("departmentInput").value
+            selectedEmployee.concessionaire_id = document.getElementById("concessionaireInput").value
+            await updateRegister(selectedEmployee);
         }
     }
 
@@ -181,11 +171,11 @@
     // updateRegister()
     // Crida a l'API remota per actualitzar un registre (PUT)
     //////////////////////////////////////////////////////////////////////////
-    async function updateRegister(selectedVehicle) {
+    async function updateRegister(selectedEmployee) {
         try {
-            const response = await fetch(url + '/' + selectedVehicle.id, {
+            const response = await fetch(url + '/' + selectedEmployee.id, {
                 method: 'PUT',
-                body: JSON.stringify(selectedVehicle),
+                body: JSON.stringify(selectedEmployee),
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -194,7 +184,7 @@
             const data = await response.json();
 
             if (response.ok) {
-                const selectedTr = document.getElementById('vehicle-' + selectedVehicle.id);
+                const selectedTr = document.getElementById('employee-' + selectedEmployee.id);
 
                 let containerDiv = document.createElement('div');
                 containerDiv.classList.add('row');
@@ -217,7 +207,7 @@
                 // Agregar el contenedor al elemento con la clase selectedTr
                 selectedTr.appendChild(containerDiv);
 
-                showMessages('message', "Vehiculo actualizado correctamente");
+                showMessages('message', "Empleado actualizado correctamente");
             } else {
                 showMessages('error', data.data);
             }
@@ -229,23 +219,23 @@
     async function reset(event) {
         const messagesDiv = document.getElementById('messagesDiv');
         const nameInput = document.getElementById('nameInput');
-        const modelInput = document.getElementById('modelInput');
-        const fuelInput = document.getElementById('fuelInput');
-        const priceInput = document.getElementById('priceInput');
-        const motorInput = document.getElementById('motorInput');
-        const productionYearInput = document.getElementById('productionYearInput');
-        const pictureInput = document.getElementById('pictureInput');
+        const phoneInput = document.getElementById('phoneInput');
+        const emailInput = document.getElementById('emailInput');
+        const addressInput = document.getElementById('addressInput');
+        const userInput = document.getElementById('userInput');
+        const chargeInput = document.getElementById('chargeInput');
+        const departmentInput = document.getElementById('departmentInput');
         const concessionaireInput = document.getElementById('concessionaireInput');
         const operationLabel = document.getElementById('operationLabel');
 
-        operationLabel.innerText = 'Nuevo Vehiculo';
+        operationLabel.innerText = 'Nuevo Empleado';
         nameInput.value = "";
-        modelInput.value = "";
-        fuelInput.value = "";
-        priceInput.value = "";
-        motorInput.value = "";
-        productionYearInput.value = "";
-        pictureInput.value = "";
+        phoneInput.value = "";
+        emailInput.value = "";
+        addressInput.value = "";
+        userInput.value = "";
+        chargeInput.value = "";
+        departmentInput.value = "";
         concessionaireInput.value = "";
         // deshabilita botons de cance·lar i esborrar            
         //deleteButton.classList.add("invisible"); // classe Bootstrap
@@ -254,11 +244,11 @@
         cancelButton.style.visibility = 'hidden';
 
         // Desmarquem el seleccionat
-        if (selectedVehicle !== undefined) {
-            const currentElement = document.getElementById("vehicle-" + selectedVehicle.id);
+        if (selectedEmployee !== undefined) {
+            const currentElement = document.getElementById("employee-" + selectedEmployee.id);
             currentElement.removeAttribute("selected");
         }
-        selectedVehicle = undefined;
+        selectedEmployee = undefined;
     }
 
     /////////////////////////////////////////////////////////////////////
@@ -276,8 +266,8 @@
 
             if (response.ok) {
                 const json = await response.json();
-                vehicles = json.data.data;
-                // console.log(vehicles) salen los concess¡ionarios? ??
+                employees = json.data.data;
+                // console.log(employees) salen los concess¡ionarios? ??
                 last_page = json.data.last_page;
                 per_page = json.data.per_page;
 
@@ -352,7 +342,7 @@
 
                 reloadListAndPagination(url);
 
-                showMessages('message', 'Vehiculo añadido correctamente');
+                showMessages('message', 'Empleado añadido correctamente');
             } else {
                 showMessages('error', data.data);
             }
@@ -372,21 +362,21 @@
         }
 
         try {
-            const response = await fetch(url + '/' + selectedVehicle.id, {
+            const response = await fetch(url + '/' + selectedEmployee.id, {
                 method: 'DELETE'
             });
             const json = await response.json();
             if (response.ok) { // codi 200
 
-                const message = "Vehiculo: " + json.data.name + " esborrat.";
+                const message = "Empleado: " + json.data.name + " esborrat.";
                 reset();
                 showMessages('message', message);
                 // Recreem taula per veure els canvis                   
                 reloadListAndPagination(url);
 
             } else {
-                showMessages('error', "Error en esborrar el Vehiculo amb codi " + selectedVehicle.id + ".<br>" +
-                    "Seguramente un vehiculo ha sido introducido en este Vehiculo.");
+                showMessages('error', "Error en esborrar el Empleado amb codi " + selectedEmployee.id + ".<br>" +
+                    "Seguramente un Empleado ha sido introducido en este Empleado.");
             }
 
         } catch (error) {
@@ -397,18 +387,18 @@
     async function reloadListAndPagination(url) {
         // Obtinc les dades del servidor
         await getList(url);
-        //... vehicles, per_page, last_page disponibles ...  
+        //... Employees, per_page, last_page disponibles ...  
         loadIntoList()
 
         // encara no tenim pagination 
     }
 
     getList(url);
-    // Que surt per la consola si fem aquí:  console.log(vehicles); per que ??
+    // Que surt per la consola si fem aquí:  console.log(Employees); per que ??
 
     async function createEmptyList(per_page) {
         // Buido el contingut
-        const dataTable = document.getElementById('vehiclesList');
+        const dataTable = document.getElementById('employeesList');
         dataTable.innerHTML = "";
 
         for (var i = 0; i < per_page; i++) {
@@ -417,76 +407,76 @@
     }
 
     function addEmptyElement(index) {
-        const vehicleElementList = document.getElementById('vehiclesList');
-        const vehicleElement = document.createElement('vehicle');
+        const employeeElementList = document.getElementById('employeesList');
+        const employeeElement = document.createElement('employee');
 
         // Registrem event per quan cliquem sobre una fila de la taula            
-        vehicleElement.addEventListener('click', function() {
-            editVehicle(index);
+        employeeElement.addEventListener('click', function() {
+            editEmployee(index);
         });
 
-        vehicleElementList.appendChild(vehicleElement);
+        employeeElementList.appendChild(employeeElement);
     }
 
     async function createListAndPagination() {
         loadConcessionaires();
         // Obtinc les dades del servidor
         await getList(url);
-        //... vehicles, per_page, last_page disponibles ...                
+        //... employees, per_page, last_page disponibles ...                
         createEmptyList(per_page);
         loadIntoList()
         createPaginationBar();
     }
 
     async function loadIntoList() {
-        // Obtenim tots els elements <vehicle> de la llista amb id = vehiclesList
-        const container = document.querySelector("#vehiclesList");
-        const vehicleElements = container.querySelectorAll("vehicle");
+        // Obtenim tots els elements <employee> de la llista amb id = employeesList
+        const container = document.querySelector("#employeesList");
+        const employeeElements = container.querySelectorAll("employee");
 
-        // Tots els elements <vehicle> quedaran per exemple:   <vehicle id='vehicle-34' selected=false ...>
-        for (let i = 0; i < vehicles.length; i++) {
+        // Tots els elements <employee> quedaran per exemple:   <employee id='employee-34' selected=false ...>
+        for (let i = 0; i < employees.length; i++) {
             // Limpiar contenido existente
-            vehicleElements[i].innerHTML = '';
+            employeeElements[i].innerHTML = '';
 
-            vehicleElements[i].setAttribute("selected", false);
-            vehicleElements[i].removeAttribute("deleted");
+            employeeElements[i].setAttribute("selected", false);
+            employeeElements[i].removeAttribute("deleted");
 
             let containerDiv = document.createElement('div');
             containerDiv.classList.add('row');
 
             let leftElement = document.createElement('div');
             leftElement.classList.add('col-md-6', 'text-center');
-            leftElement.innerHTML = vehicles[i].name;
+            leftElement.innerHTML = employees[i].name;
 
             let rightElement = document.createElement('div');
             rightElement.classList.add('col-md-6', 'text-center');
-            rightElement.innerHTML = getConcessionaireNameById(vehicles[i].concessionaire_id);
+            rightElement.innerHTML = getConcessionaireNameById(employees[i].concessionaire_id);
 
             // Agregar elementos al contenedor
             containerDiv.appendChild(leftElement);
             containerDiv.appendChild(rightElement);
 
             // Agregar el contenedor al elemento del vehículo
-            vehicleElements[i].appendChild(containerDiv);
+            employeeElements[i].appendChild(containerDiv);
 
-            // Posem id de l'estil vehicle-0, ...
-            vehicleElements[i].setAttribute('id', 'vehicle-' + vehicles[i].id);
+            // Posem id de l'estil employee-0, ...
+            employeeElements[i].setAttribute('id', 'employee-' + employees[i].id);
 
             // Cursor amb dit per seleccionar
-            vehicleElements[i].style = 'cursor: pointer';
+            employeeElements[i].style = 'cursor: pointer';
         }
 
         // Si queden elements de la llista sense dades, les desactivem.
-        for (let j = vehicles.length; j < vehicleElements.length; j++) {
+        for (let j = employees.length; j < employeeElements.length; j++) {
             // Limpiar contenido existente
-            vehicleElements[j].innerHTML = '';
+            employeeElements[j].innerHTML = '';
 
             // cursor normal
-            vehicleElements[j].style = 'cursor: cursor';
-            vehicleElements[j].setAttribute("selected", false);
+            employeeElements[j].style = 'cursor: cursor';
+            employeeElements[j].setAttribute("selected", false);
 
-            // Els elements sense vehicle tenen un estil diferent!
-            vehicleElements[j].setAttribute("deleted", true);
+            // Els elements sense employee tenen un estil diferent!
+            employeeElements[j].setAttribute("deleted", true);
         }
     }
 
@@ -575,19 +565,19 @@
         loadIntoList();
     }
 
-    function editVehicle(index) {
+    function editEmployee(index) {
 
         // console.log(index);
-        // console.log(vehicles[index]);
-        if (index >= vehicles.length) {
+        // console.log(Employees[index]);
+        if (index >= employees.length) {
             return;
         }
 
-        const selectedElement = document.getElementById('vehicle-' + vehicles[index].id);
+        const selectedElement = document.getElementById('employee-' + employees[index].id);
 
-        // Obtenim tots els elements <vehicle> de la llista amb id = vehiclesList
-        const container = document.querySelector("#vehiclesList");
-        const rows = container.querySelectorAll("vehicle");
+        // Obtenim tots els elements <employee> de la llista amb id = employeesList
+        const container = document.querySelector("#employeesList");
+        const rows = container.querySelectorAll("employee");
         // els posem els atributs de seleccionat a false a tots
         for (const row of rows) {
             row.setAttribute("selected", false);
@@ -597,25 +587,25 @@
 
         // Obtenim les dades del regitre seleccionat
         // i les posem en les caixes del formulari per poder editar-les                         
-        selectedVehicle = vehicles[index];
+        selectedEmployee = employees[index];
 
         const nameInput = document.getElementById('nameInput');
-        const modelInput = document.getElementById('modelInput');
-        const fuelInput = document.getElementById('fuelInput');
-        const priceInput = document.getElementById('priceInput');
-        const motorInput = document.getElementById('motorInput');
-        const productionYearInput = document.getElementById('productionYearInput');
-        const pictureInput = document.getElementById('pictureInput');
+        const phoneInput = document.getElementById('phoneInput');
+        const emailInput = document.getElementById('emailInput');
+        const addressInput = document.getElementById('addressInput');
+        const userInput = document.getElementById('userInput');
+        const chargeInput = document.getElementById('chargeInput');
+        const departmentInput = document.getElementById('departmentInput');
         const concessionaireInput = document.getElementById('concessionaireInput');
-        nameInput.value = selectedVehicle.name;
-        modelInput.value = selectedVehicle.model;
-        fuelInput.value = selectedVehicle.fuel;
-        priceInput.value = selectedVehicle.price;
-        motorInput.value = selectedVehicle.motor;
-        productionYearInput.value = selectedVehicle.production_year;
-        pictureInput.value = selectedVehicle.picture;
+        nameInput.value = selectedEmployee.name;
+        phoneInput.value = selectedEmployee.phone_number;
+        emailInput.value = selectedEmployee.email;
+        addressInput.value = selectedEmployee.address;
+        userInput.value = selectedEmployee.user_id;
+        chargeInput.value = selectedEmployee.charge;
+        departmentInput.value = selectedEmployee.department;
       
-        concessionaireInput.value = selectedVehicle.concessionaire_id;
+        concessionaireInput.value = selectedEmployee.concessionaire_id;
 
         // Activem botons per cancel·lar l'operació d'actualització i per
         // esborrar el registre actiu
@@ -623,7 +613,7 @@
         cancelButton.style.visibility = 'visible';
 
         const operationLabel = document.getElementById('operationLabel');
-        operationLabel.innerText = "Actualizar Vehiculo";
+        operationLabel.innerText = "Actualizar Empleado";
     }
 
     createListAndPagination();

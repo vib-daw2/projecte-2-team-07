@@ -16,22 +16,20 @@
 
 <body>
     <div id="container" class="container">
-        <h1 class="pb-2">Concesionarios</h1>
+        <h1 class="pb-2">Clientes</h1>
         <div class="row mt-2">
             <div class="col-3">
                 <div class="card  rounded-0">
                     <div class="card-header bg-dark text-white  rounded-0">
                         <label class="fw-bold text-uppercase">Nombre</label>
                     </div>
-                    <list id="concessionairesList"></list>
+                    <list id="customersList"></list>
                 </div>
                 <!-- Barra navegació -->
                 <div class="mt-4 p-2 border">
                     <paginacio class="pagination justify-content-center" id="pagination-numbers">
                     </paginacio>
                 </div>
-                <!-- zona Missatges -->
-                <div id="messagesDiv" class="border p-2 mt-4 rounded-0"></div>
             </div>
 
             <!-- Formulari alta/actualització  -->
@@ -59,19 +57,15 @@
                                 <div class="col-md-9">
                                     <input type="text" name="address" id="addressInput" class="form-control mb-2" />
                                 </div>
-                                <label class="col-md-2 col-form-label text-md-end">Coordenadas</label>
+                                <label class="col-md-2 col-form-label text-md-end">User ID</label>
                                 <div class="col-md-9">
-                                    <input type="text" name="coordinates" id="coordinatesInput" class="form-control mb-2" />
-                                </div>
-                                <label class="col-md-2 col-form-label text-md-end">Foto</label>
-                                <div class="col-md-9">
-                                    <input type="text" name="picture" id="pictureInput" class="form-control mb-2" />
+                                    <input type="text" name="user_id" id="userInput" class="form-control mb-2" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label class="col-md-2 col-form-label text-md-end">Clientes</label>
                                 <div class="col-md-4">
-                                    <select id="customersOutput" class="form-control" size="8" name="customers[]" multiple>
+                                    <select id="concessionairesOutput" class="form-control" size="8" name="concessionaires[]" multiple>
                                         <option></option>
                                     </select>
                                 </div>
@@ -80,39 +74,7 @@
                                     <button id="removeButton" type="button" class="btn btn-secondary rounded-circle" style="width: 35px;">-</button>
                                 </div>
                                 <div class="col-md-4">
-                                    <select id="customersInput" class="form-control" size="8" name="customers[]" multiple>
-                                        <option></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-md-2 col-form-label text-md-end">Vehiculos</label>
-                                <div class="col-md-4">
-                                    <select id="vehiclesOutput" class="form-control" size="8" name="vehicles[]" multiple>
-                                        <option></option>
-                                    </select>
-                                </div>
-                                <div class="col-md-1 d-flex flex-column align-items-center justify-content-center">
-                                    <button id="addVehiclesButton" type="button" class="btn btn-primary rounded-circle mb-2" style="width: 35px;">+</button>
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="vehiclesInput" class="form-control" size="8" name="vehicles[]" multiple>
-                                        <option></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-md-2 col-form-label text-md-end">Empleados</label>
-                                <div class="col-md-4">
-                                    <select id="employeesOutput" class="form-control" size="8" name="employees[]" multiple>
-                                        <option></option>
-                                    </select>
-                                </div>
-                                <div class="col-md-1 d-flex flex-column align-items-center justify-content-center">
-                                    <button id="addEmployeesButton" type="button" class="btn btn-primary rounded-circle mb-2" style="width: 35px;">+</button>
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="employeesInput" class="form-control" size="8" name="employees[]" multiple>
+                                    <select id="concessionairesInput" class="form-control" size="8" name="concessionaires[]" multiple>
                                         <option></option>
                                     </select>
                                 </div>
@@ -127,6 +89,8 @@
                         </form>
                     </div>
                 </div>
+                 <!-- zona Missatges -->
+                <div id="messagesDiv" class="border p-2 mt-4 rounded-0"></div>
             </div>
         </div>
     </div>
@@ -140,16 +104,12 @@
     const deleteButton = document.getElementById('deleteButton');
     deleteButton.addEventListener('click', deleteRegister);
     const addButton = document.getElementById('addButton');
-    addButton.addEventListener('click', addCustomers);
+    addButton.addEventListener('click', addConcessionaires);
     const removeButton = document.getElementById('removeButton');
-    removeButton.addEventListener('click', removeCustomers);
-    const addVehiclesButton = document.getElementById('addVehiclesButton');
-    addVehiclesButton.addEventListener('click', addVehicles);
-    const addEmployeesButton = document.getElementById('addEmployeesButton');
-    addEmployeesButton.addEventListener('click', addEmployees);
+    removeButton.addEventListener('click', removeConcessionaires);
 
     // url per accedir a l'API
-    const url = 'http://localhost:8000/api/concessionaires';
+    const url = 'http://localhost:8000/api/customers';
 
     // Número pàgines del llistat
     let last_page = 0;
@@ -157,10 +117,10 @@
     let per_page = 0;
     // Pàgina actual
     let currentPage = 1;
-    // llista de concessionaires
-    let concessionaires = [];
-    // Referència al concessionaire seleccionat
-    let selectedConcessionaire;
+    // llista de customers
+    let customers = [];
+    // Referència al customer seleccionat
+    let selectedCustomer;
 
     function resetButton(event) {
         event.preventDefault()
@@ -176,44 +136,42 @@
     //////////////////////////////////////////////////////////////////////
     async function saveRegister(event) {
         event.preventDefault()
-        if (selectedConcessionaire === undefined) {
-            newConcessionaire = {
+        if (selectedCustomer === undefined) {
+            newCustomer = {
                 id: undefined,
                 name: document.getElementById("nameInput").value,
                 phone_number: document.getElementById("phoneInput").value,
                 email: document.getElementById("emailInput").value,
                 address: document.getElementById("addressInput").value,
-                coordinates: document.getElementById("coordinatesInput").value,
-                picture: document.getElementById("pictureInput").value
+                user_id: document.getElementById("userInput").value,
             }
-            await newRegister(newConcessionaire);
+            await newRegister(newCustomer);
 
         } else { // Si l'objecte té valor, farem una actualització
-            // Recuperem les dades de la caixa i les posem en els atributs de concessionaire
-            selectedConcessionaire.name = document.getElementById("nameInput").value
-            selectedConcessionaire.phone_number = document.getElementById("phoneInput").value
-            selectedConcessionaire.email = document.getElementById("emailInput").value
-            selectedConcessionaire.address = document.getElementById("addressInput").value
-            selectedConcessionaire.coordinates = document.getElementById("coordinatesInput").value
-            selectedConcessionaire.picture = document.getElementById("pictureInput").value
-            await updateRegister(selectedConcessionaire);
+            // Recuperem les dades de la caixa i les posem en els atributs de Customer
+            selectedCustomer.name = document.getElementById("nameInput").value
+            selectedCustomer.phone_number = document.getElementById("phoneInput").value
+            selectedCustomer.email = document.getElementById("emailInput").value
+            selectedCustomer.address = document.getElementById("addressInput").value
+            selectedCustomer.user_id = document.getElementById("userInput").value
+            await updateRegister(selectedCustomer);
         }
     }
 
-    async function addCustomers(event) {
-        var selectedCustomers = Array.from(document.getElementById('customersInput').selectedOptions).map(option => option.value);
+    async function addConcessionaires(event) {
+        var selectedConcessionaires = Array.from(document.getElementById('concessionairesInput').selectedOptions).map(option => option.value);
 
-        if (!selectedCustomers || selectedCustomers.length === 0) {
+        if (!selectedConcessionaires || selectedConcessionaires.length === 0) {
             alert('Selecciona al menos un cliente');
             return;
         }
 
         var jsonData = {
-            customers: selectedCustomers
+            concessionaires: selectedConcessionaires
         };
 
         try {
-            const response = await fetch(url + '/' + selectedConcessionaire.id + '/attach-customers', {
+            const response = await fetch(url + '/' + selectedCustomer.id + '/attach-concessionaires', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -224,7 +182,7 @@
 
             const data = await response.json();
             if (response.ok) {
-                getCustomers();
+                getConcessionaires();
                 showMessages('message', 'Clientes añadidos correctamente');
             } else {
                 showMessages('error', data.data);
@@ -234,20 +192,20 @@
         }
     }
 
-    async function removeCustomers(event) {
-        var selectedCustomers = Array.from(document.getElementById('customersOutput').selectedOptions).map(option => option.value);
+    async function removeConcessionaires(event) {
+        var selectedConcessionaires = Array.from(document.getElementById('concessionairesOutput').selectedOptions).map(option => option.value);
 
-        if (!selectedCustomers || selectedCustomers.length === 0) {
+        if (!selectedConcessionaires || selectedConcessionaires.length === 0) {
             alert('Selecciona al menos un cliente');
             return;
         }
 
         var jsonData = {
-            customers: selectedCustomers
+            concessionaires: selectedConcessionaires
         };
 
         try {
-            const response = await fetch(url + '/' + selectedConcessionaire.id + '/detach-customers', {
+            const response = await fetch(url + '/' + selectedCustomer.id + '/detach-concessionaires', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -258,7 +216,7 @@
 
             const data = await response.json();
             if (response.ok) {
-                getCustomers();
+                getConcessionaires();
                 showMessages('message', 'Clientes quitados correctamente');
             } else {
                 showMessages('error', data.data);
@@ -268,83 +226,16 @@
         }
     }
 
-    async function addVehicles(event) {
-        var selectedVehicles = Array.from(document.getElementById('vehiclesInput').selectedOptions).map(option => option.value);
-
-        if (!selectedVehicles || selectedVehicles.length === 0) {
-            alert('Selecciona al menos un cliente');
-            return;
-        }
-
-        var jsonData = {
-            vehicles: selectedVehicles
-        };
-
-        try {
-            const response = await fetch(url + '/' + selectedConcessionaire.id + '/add-vehicles', {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify(jsonData)
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                getVehicles();
-                showMessages('message', 'Vehiculo añadido correctamente');
-            } else {
-                showMessages('error', data.data);
-            }
-        } catch (error) { // Errors de xarxa
-            showMessages('error', 'Error accedint a les dades remotes.');
-        }
-    }
-
-    async function addEmployees(event) {
-        var selectedEmployees = Array.from(document.getElementById('employeesInput').selectedOptions).map(option => option.value);
-
-        if (!selectedEmployees || selectedEmployees.length === 0) {
-            alert('Selecciona al menos un cliente');
-            return;
-        }
-
-        var jsonData = {
-            employees: selectedEmployees
-        };
-
-        try {
-            const response = await fetch(url + '/' + selectedConcessionaire.id + '/add-employees', {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify(jsonData)
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                getEmployees();
-                showMessages('message', 'Empleado añadido correctamente');
-            } else {
-                showMessages('error', data.data);
-            }
-        } catch (error) { // Errors de xarxa
-            showMessages('error', 'Error accedint a les dades remotes.');
-        }
-    }
 
     //////////////////////////////////////////////////////////////////////////
     // updateRegister()
     // Crida a l'API remota per actualitzar un registre (PUT)
     //////////////////////////////////////////////////////////////////////////
-    async function updateRegister(selectedConcessionaire) {
+    async function updateRegister(selectedCustomer) {
         try {
-            const response = await fetch(url + '/' + selectedConcessionaire.id, {
+            const response = await fetch(url + '/' + selectedCustomer.id, {
                 method: 'PUT',
-                body: JSON.stringify(selectedConcessionaire),
+                body: JSON.stringify(selectedCustomer),
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -353,7 +244,7 @@
             const data = await response.json();
 
             if (response.ok) {
-                const selectedTr = document.getElementById('concessionaire-' + selectedConcessionaire.id);
+                const selectedTr = document.getElementById('customer-' + selectedCustomer.id);
                 selectedTr.innerHTML = data.data.name;
 
                 showMessages('message', "Concessionario actualizado correctamente");
@@ -371,8 +262,7 @@
         const phoneInput = document.getElementById('phoneInput');
         const emailInput = document.getElementById('emailInput');
         const addressInput = document.getElementById('addressInput');
-        const coordinatesInput = document.getElementById('coordinatesInput');
-        const pictureInput = document.getElementById('pictureInput');
+        const userInput = document.getElementById('userInput');
         const operationLabel = document.getElementById('operationLabel');
 
         operationLabel.innerText = 'Nuevo Concesionario';
@@ -380,14 +270,9 @@
         phoneInput.value = "";
         emailInput.value = "";
         addressInput.value = "";
-        coordinatesInput.value = "";
-        pictureInput.value = "";
-        employeesInput.innerHTML = '';
-        employeesOutput.innerHTML = '';
-        customersInput.innerHTML = '';
-        customersOutput.innerHTML = '';
-        vehiclesInput.innerHTML = '';
-        vehiclesOutput.innerHTML = '';
+        userInput.value = "";
+        concessionairesInput.innerHTML = '';
+        concessionairesOutput.innerHTML = '';
         // deshabilita botons de cance·lar i esborrar            
         //deleteButton.classList.add("invisible"); // classe Bootstrap
         deleteButton.style.visibility = 'hidden';
@@ -395,11 +280,11 @@
         cancelButton.style.visibility = 'hidden';
 
         // Desmarquem el seleccionat
-        if (selectedConcessionaire !== undefined) {
-            const currentElement = document.getElementById("concessionaire-" + selectedConcessionaire.id);
+        if (selectedCustomer !== undefined) {
+            const currentElement = document.getElementById("customer-" + selectedCustomer.id);
             currentElement.removeAttribute("selected");
         }
-        selectedConcessionaire = undefined;
+        selectedCustomer = undefined;
     }
 
     /////////////////////////////////////////////////////////////////////
@@ -417,8 +302,8 @@
 
             if (response.ok) {
                 const json = await response.json();
-                concessionaires = json.data.data;
-                // console.log(concessionaires) salen los concess¡ionarios? ??
+                customers = json.data.data;
+                // console.log(customers) salen los concess¡ionarios? ??
                 last_page = json.data.last_page;
                 per_page = json.data.per_page;
 
@@ -490,7 +375,7 @@
 
             const data = await response.json();
             if (response.ok) {
-                reset();
+                reset(event)
                 reloadListAndPagination(url);
 
                 showMessages('message', 'Concesionario añadido correctamente');
@@ -513,20 +398,20 @@
         }
 
         try {
-            const response = await fetch(url + '/' + selectedConcessionaire.id, {
+            const response = await fetch(url + '/' + selectedCustomer.id, {
                 method: 'DELETE'
             });
             const json = await response.json();
             if (response.ok) { // codi 200
 
-                const message = "Concesionario: " + json.data.name + " borrado.";
+                const message = "Concesionario: " + json.data.name + " esborrat.";
                 reset();
                 showMessages('message', message);
                 // Recreem taula per veure els canvis                   
                 reloadListAndPagination(url);
 
             } else {
-                showMessages('error', "Error en esborrar el Concesionario amb codi " + selectedConcessionaire.id + ".<br>" +
+                showMessages('error', "Error en esborrar el Concesionario amb codi " + selectedCustomer.id + ".<br>" +
                     "Seguramente un vehiculo ha sido introducido en este concesionario.");
             }
 
@@ -538,16 +423,16 @@
     async function reloadListAndPagination(url) {
         // Obtinc les dades del servidor
         await getList(url);
-        //... concessionaires, per_page, last_page disponibles ...  
+        //... Customers, per_page, last_page disponibles ...  
         loadIntoList()
     }
 
     getList(url);
-    // Que surt per la consola si fem aquí:  console.log(concessionaires); per que ??
+    // Que surt per la consola si fem aquí:  console.log(Customers); per que ??
 
     async function createEmptyList(per_page) {
         // Buido el contingut
-        const dataTable = document.getElementById('concessionairesList');
+        const dataTable = document.getElementById('customersList');
         dataTable.innerHTML = "";
 
         for (var i = 0; i < per_page; i++) {
@@ -556,21 +441,21 @@
     }
 
     function addEmptyElement(index) {
-        const concessionaireElementList = document.getElementById('concessionairesList');
-        const concessionaireElement = document.createElement('concessionaire');
+        const customerElementList = document.getElementById('customersList');
+        const customerElement = document.createElement('customer');
 
         // Registrem event per quan cliquem sobre una fila de la taula            
-        concessionaireElement.addEventListener('click', function() {
-            editConcessionaire(index);
+        customerElement.addEventListener('click', function() {
+            editCustomer(index);
         });
 
-        concessionaireElementList.appendChild(concessionaireElement);
+        customerElementList.appendChild(customerElement);
     }
 
     async function createListAndPagination() {
         // Obtinc les dades del servidor
         await getList(url);
-        //... concessionaires, per_page, last_page disponibles ...                
+        //... customers, per_page, last_page disponibles ...                
         createEmptyList(per_page);
         loadIntoList()
         createPaginationBar();
@@ -578,29 +463,29 @@
 
     async function loadIntoList() {
 
-        // Obtenim tots els elements <concessionaire> de la llista amb id = concessionairesList
-        const container = document.querySelector("#concessionairesList");
-        const concessionaireElements = container.querySelectorAll("concessionaire");
-        // Tots els elements <concessionaire> quedaran per exemple:   <concessionaire id='concessionaire-34' selected=false ...>
-        for (let i = 0; i < concessionaires.length; i++) {
-            concessionaireElements[i].setAttribute("selected", false);
-            concessionaireElements[i].removeAttribute("deleted")
+        // Obtenim tots els elements <customer> de la llista amb id = customersList
+        const container = document.querySelector("#customersList");
+        const customerElements = container.querySelectorAll("customer");
+        // Tots els elements <customer> quedaran per exemple:   <customer id='customer-34' selected=false ...>
+        for (let i = 0; i < customers.length; i++) {
+            customerElements[i].setAttribute("selected", false);
+            customerElements[i].removeAttribute("deleted")
 
-            concessionaireElements[i].innerHTML = concessionaires[i].name;
-            // Posem id de l'estil concessionaire-0, ...
-            concessionaireElements[i].setAttribute('id', 'concessionaire-' + concessionaires[i].id);
+            customerElements[i].innerHTML = customers[i].name;
+            // Posem id de l'estil customer-0, ...
+            customerElements[i].setAttribute('id', 'customer-' + customers[i].id);
 
             // Cursor amb dit per seleccionar
-            concessionaireElements[i].style = 'cursor: pointer';
+            customerElements[i].style = 'cursor: pointer';
         }
         // Si queden elements de la llista sense dades, les desactivem.
-        for (let j = concessionaires.length; j < concessionaireElements.length; j++) {
+        for (let j = customers.length; j < customerElements.length; j++) {
             // cursor normal
-            concessionaireElements[j].style = 'cursor: cursor';
-            concessionaireElements[j].setAttribute("selected", false);
-            // Els elements sense concessionaire tenen un estil diferent!
-            concessionaireElements[j].setAttribute("deleted", true);
-            concessionaireElements[j].innerHTML = "";
+            customerElements[j].style = 'cursor: cursor';
+            customerElements[j].setAttribute("selected", false);
+            // Els elements sense customer tenen un estil diferent!
+            customerElements[j].setAttribute("deleted", true);
+            customerElements[j].innerHTML = "";
         }
     }
 
@@ -656,110 +541,49 @@
         loadIntoList();
     }
 
-    function getCustomers() {
+    function getConcessionaires() {
 
-        fetch(url + '/' + selectedConcessionaire.id + '/edit-customers')
+        fetch(url + '/' + selectedCustomer.id + '/edit-concessionaires')
             .then(response => response.json())
             .then(data => {
-                const customersOut = data.data[1]; // Extraer los segundos clientes de la respuesta
-                const customersIn = data.data[0].customers;
+                const concessionairesOut = data.data[1]; // Extraer los segundos clientes de la respuesta
+                const concessionairesIn = data.data[0].concessionaires;
 
-                customersInput.innerHTML = ''; // Limpiar opciones existentes
-                customersOutput.innerHTML = ''; // Limpiar opciones existentes
+                concessionairesInput.innerHTML = ''; // Limpiar opciones existentes
+                concessionairesOutput.innerHTML = ''; // Limpiar opciones existentes
 
                 // Iterar sobre la lista de clientes y agregar opciones al <select>
-                customersIn.forEach(customer => {
+                concessionairesIn.forEach(concessionaire => {
                     const option = document.createElement('option');
-                    option.value = customer.id;
-                    option.text = customer.name;
-                    customersOutput.appendChild(option);
+                    option.value = concessionaire.id;
+                    option.text = concessionaire.name;
+                    concessionairesOutput.appendChild(option);
                 });
 
                 // Iterar sobre la lista de clientes y agregar opciones al <select>
-                customersOut.forEach(customer => {
+                concessionairesOut.forEach(concessionaire => {
                     const option = document.createElement('option');
-                    option.value = customer.id;
-                    option.text = customer.name;
-                    customersInput.appendChild(option);
+                    option.value = concessionaire.id;
+                    option.text = concessionaire.name;
+                    concessionairesInput.appendChild(option);
                 });
             })
             .catch(error => console.error('Error buscando clientes:', error));
     }
 
-    function getVehicles() {
-
-        fetch(url + '/' + selectedConcessionaire.id + '/edit-vehicles')
-            .then(response => response.json())
-            .then(data => {
-                const vehiclesOut = data.data.vehicles; // Extraer los segundos vehiculos de la respuesta
-                const vehiclesIn = data.data.concessionaire.vehicles;
-
-                vehiclesInput.innerHTML = ''; // Limpiar opciones existentes
-                vehiclesOutput.innerHTML = ''; // Limpiar opciones existentes
-
-                // Iterar sobre la lista de clientes y agregar opciones al <select>
-                vehiclesIn.forEach(vehicle => {
-                    const option = document.createElement('option');
-                    option.value = vehicle.id;
-                    option.text = vehicle.name;
-                    vehiclesOutput.appendChild(option);
-                });
-
-                // Iterar sobre la lista de clientes y agregar opciones al <select>
-                vehiclesOut.forEach(vehicle => {
-                    const option = document.createElement('option');
-                    option.value = vehicle.id;
-                    option.text = `${vehicle.name} (${vehicle.concessionaire_id})`;
-                    vehiclesInput.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error buscando vehicles:', error));
-    }
-
-    function getEmployees() {
-
-        fetch(url + '/' + selectedConcessionaire.id + '/edit-employees')
-            .then(response => response.json())
-            .then(data => {
-                const employeesOut = data.data.employees; // Extraer los segundos vehiculos de la respuesta
-                const employeesIn = data.data.concessionaire.employees;
-
-                employeesInput.innerHTML = ''; // Limpiar opciones existentes
-                employeesOutput.innerHTML = ''; // Limpiar opciones existentes
-
-                // Iterar sobre la lista de clientes y agregar opciones al <select>
-                employeesIn.forEach(employee => {
-                    const option = document.createElement('option');
-                    option.value = employee.id;
-                    option.text = employee.name;
-                    employeesOutput.appendChild(option);
-                });
-
-                // Iterar sobre la lista de clientes y agregar opciones al <select>
-                employeesOut.forEach(employee => {
-                    const option = document.createElement('option');
-                    option.value = employee.id;
-                    option.text = `${employee.name} (${employee.concessionaire_id})`;
-                    employeesInput.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error buscando employees:', error));
-    }
-
-
-    function editConcessionaire(index) {
+    function editCustomer(index) {
 
         // console.log(index);
-        // console.log(concessionaires[index]);
-        if (index >= concessionaires.length) {
+        // console.log(Customers[index]);
+        if (index >= customers.length) {
             return;
         }
 
-        const selectedElement = document.getElementById('concessionaire-' + concessionaires[index].id);
+        const selectedElement = document.getElementById('customer-' + customers[index].id);
 
-        // Obtenim tots els elements <concessionaire> de la llista amb id = concessionairesList
-        const container = document.querySelector("#concessionairesList");
-        const rows = container.querySelectorAll("concessionaire");
+        // Obtenim tots els elements <customer> de la llista amb id = customersList
+        const container = document.querySelector("#customersList");
+        const rows = container.querySelectorAll("customer");
         // els posem els atributs de seleccionat a false a tots
         for (const row of rows) {
             row.setAttribute("selected", false);
@@ -769,25 +593,21 @@
 
         // Obtenim les dades del regitre seleccionat
         // i les posem en les caixes del formulari per poder editar-les                         
-        selectedConcessionaire = concessionaires[index];
+        selectedCustomer = customers[index];
 
         const nameInput = document.getElementById('nameInput');
         const phoneInput = document.getElementById('phoneInput');
         const emailInput = document.getElementById('emailInput');
         const addressInput = document.getElementById('addressInput');
-        const coordinatesInput = document.getElementById('coordinatesInput');
-        const pictureInput = document.getElementById('pictureInput');
+        const userInput = document.getElementById('userInput');
 
-        getCustomers();
-        getVehicles();
-        getEmployees();
+        getConcessionaires();
 
-        nameInput.value = selectedConcessionaire.name;
-        phoneInput.value = selectedConcessionaire.phone_number;
-        emailInput.value = selectedConcessionaire.email;
-        addressInput.value = selectedConcessionaire.address;
-        coordinatesInput.value = selectedConcessionaire.coordinates;
-        pictureInput.value = selectedConcessionaire.picture;
+        nameInput.value = selectedCustomer.name;
+        phoneInput.value = selectedCustomer.phone_number;
+        emailInput.value = selectedCustomer.email;
+        addressInput.value = selectedCustomer.address;
+        userInput.value = selectedCustomer.user_id;
 
         // Activem botons per cancel·lar l'operació d'actualització i per
         // esborrar el registre actiu

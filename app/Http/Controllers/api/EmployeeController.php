@@ -4,10 +4,10 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Vehicle;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Validator;
 
-class VehicleController extends Controller
+class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,12 @@ class VehicleController extends Controller
     public function index()
     {
         // ordenats per ordre d'inserció
-        $vehicles = Vehicle::latest()->paginate(10);
+        $employees = Employee::latest()->paginate(10);
 
         $response = [
             'success' => true,
-            'message' => "Listado vehiculos recuperada",
-            'data' => $vehicles,
+            'message' => "Listado Empleados recuperada",
+            'data' => $employees,
         ];
 
         //return $response;
@@ -29,11 +29,11 @@ class VehicleController extends Controller
 
     public function all()
     {
-        $vehicles = Vehicle::all();
+        $employees = Employee::all();
         $response = [
             'success' => true,
-            'message' => "Listado vehiculos recuperada",
-            'data' => $vehicles,
+            'message' => "Listado Empleados recuperada",
+            'data' => $employees,
         ];
 
         return response()->json($response, 200);
@@ -72,13 +72,13 @@ class VehicleController extends Controller
              return response()->json($response, 400);
          }
  
-         // [ "name"=>"vehicles", .......]
-         $vehicle = Vehicle::create($input);
+         // [ "name"=>"employees", .......]
+         $employee = Employee::create($input);
  
          $response = [
              'success' => true,
-             'message' => "Vehiculo creado correctamente",
-             'data' => $vehicle,
+             'message' => "Empleado creado correctamente",
+             'data' => $employee,
          ];
  
          return response()->json($response, 200);
@@ -89,12 +89,12 @@ class VehicleController extends Controller
      */
     public function show(string $id)
     {
-        $vehicle = Vehicle::find($id);
+        $employee = Employee::find($id);
 
-        if ($vehicle == null) {
+        if ($employee == null) {
             $response = [
                 'success' => false,
-                'message' => "Vehiculo no encontrado",
+                'message' => "Empleado no encontrado",
                 'data' => [],
             ];
 
@@ -103,8 +103,8 @@ class VehicleController extends Controller
 
         $response = [
             'success' => true,
-            'message' => "Vehiculo encontrado",
-            'data' => $vehicle,
+            'message' => "Empleado encontrado",
+            'data' => $employee,
         ];
 
         return response()->json($response, 200);
@@ -123,12 +123,12 @@ class VehicleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $vehicle = Vehicle::find($id);
+        $employee = Employee::find($id);
 
-        if ($vehicle == null) {
+        if ($employee == null) {
             $response = [
                 'success' => false,
-                'message' => "Vehiculo no encontrado",
+                'message' => "Empleado no encontrado",
                 'data' => [],
             ];
 
@@ -154,12 +154,12 @@ class VehicleController extends Controller
             return response()->json($response, 400);
         }
 
-        $vehicle->update($input);
+        $employee->update($input);
 
         $response = [
             'success' => true,
-            'message' => "Vehiculo actualizado correctamente",
-            'data' => $vehicle,
+            'message' => "Empleado actualizado correctamente",
+            'data' => $employee,
         ];
 
         return response()->json($response, 200);
@@ -170,12 +170,12 @@ class VehicleController extends Controller
      */
     public function destroy(string $id)
     {
-        $vehicle = Vehicle::find($id);
+        $employee = Employee::find($id);
 
-        if ($vehicle == null) {
+        if ($employee == null) {
             $response = [
                 'success' => false,
-                'message' => "Vehiculo no encontrado",
+                'message' => "Empleado no encontrado",
                 'data' => [],
             ];
 
@@ -183,12 +183,12 @@ class VehicleController extends Controller
         }
 
         try {
-            $vehicle->delete();
+            $employee->delete();
 
             $response = [
                 'success' => true,
-                'message' => "Vehiculo borrado",
-                'data' => $vehicle,
+                'message' => "Empleado borrado",
+                'data' => $employee,
             ];
 
             return response()->json($response, 200);
@@ -196,7 +196,7 @@ class VehicleController extends Controller
 
             $response = [
                 'success' => false,
-                'message' => "Error borrando Vehiculo",
+                'message' => "Error borrando Empleado",
             ];
 
             return response()->json($response, 400);

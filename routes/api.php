@@ -19,7 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/concessionaires/all', [App\Http\Controllers\api\ConcessionaireController::class, 'all'])->name('concessionaires.all');
-
 Route::resource('/concessionaires', App\Http\Controllers\api\ConcessionaireController::class);
 
 Route::get('/concessionaires/{concessionaire}/edit-customers', [App\Http\Controllers\api\ConcessionaireController::class, 'editCustomers']);
@@ -33,9 +32,14 @@ Route::get('/concessionaires/{concessionaire}/edit-vehicles', [App\Http\Controll
 Route::post('/concessionaires/{concessionaire}/add-vehicles', [App\Http\Controllers\api\ConcessionaireController::class, 'addVehicles']);
 
 Route::get('/vehicles/all', [App\Http\Controllers\api\VehicleController::class, 'all'])->name('vehicles.all');
-
 Route::resource('/vehicles', App\Http\Controllers\api\VehicleController::class);
 
-Route::get('/customers/all', [App\Http\Controllers\api\CustomerController::class, 'all'])->name('customers.all');
+Route::get('/employees/all', [App\Http\Controllers\api\EmployeeController::class, 'all'])->name('employees.all');
+Route::resource('/employees', App\Http\Controllers\api\EmployeeController::class);
 
+Route::get('/customers/all', [App\Http\Controllers\api\CustomerController::class, 'all'])->name('customers.all');
 Route::resource('/customers', App\Http\Controllers\api\CustomerController::class);
+
+Route::get('/customers/{customer}/edit-concessionaires', [App\Http\Controllers\api\CustomerController::class, 'editConcessionaires']);
+Route::post('/customers/{customer}/attach-concessionaires', [App\Http\Controllers\api\CustomerController::class, 'attachConcessionaires']);
+Route::post('/customers/{customer}/detach-concessionaires', [App\Http\Controllers\api\CustomerController::class, 'detachConcessionaires']);
