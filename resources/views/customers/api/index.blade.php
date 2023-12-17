@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label class="col-md-2 col-form-label text-md-end">Clientes</label>
+                                <label class="col-md-2 col-form-label text-md-end">Concessionarios</label>
                                 <div class="col-md-4">
                                     <select id="concessionairesOutput" class="form-control" size="8" name="concessionaires[]" multiple>
                                         <option></option>
