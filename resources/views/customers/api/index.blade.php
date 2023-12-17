@@ -184,7 +184,7 @@
             const data = await response.json();
             if (response.ok) {
                 getConcessionaires();
-                showMessages('message', 'Clientes añadidos correctamente');
+                showMessages('message', 'Concesionarios añadidos correctamente');
             } else {
                 showMessages('error', data.data);
             }
@@ -219,7 +219,7 @@
             const data = await response.json();
             if (response.ok) {
                 getConcessionaires();
-                showMessages('message', 'Clientes quitados correctamente');
+                showMessages('message', 'Concessionarios quitados correctamente');
             } else {
                 showMessages('error', data.data);
             }
@@ -250,7 +250,7 @@
                 const selectedTr = document.getElementById('customer-' + selectedCustomer.id);
                 selectedTr.innerHTML = data.data.name;
 
-                showMessages('message', "Concessionario actualizado correctamente");
+                showMessages('message', "Cliente actualizado correctamente");
             } else {
                 showMessages('error', data.data);
             }
@@ -383,7 +383,7 @@
                 reset(event)
                 reloadListAndPagination(url);
 
-                showMessages('message', 'Concesionario añadido correctamente');
+                showMessages('message', 'Cliente añadido correctamente');
             } else {
                 showMessages('error', data.data);
             }
@@ -412,7 +412,7 @@
             const json = await response.json();
             if (response.ok) { // codi 200
 
-                const message = "Concesionario: " + json.data.name + " esborrat.";
+                const message = "Cliente: " + json.data.name + " esborrat.";
                 reset();
                 showMessages('message', message);
                 // Recreem taula per veure els canvis                   
