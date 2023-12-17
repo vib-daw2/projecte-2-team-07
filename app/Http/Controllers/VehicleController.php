@@ -55,7 +55,7 @@ class VehicleController extends Controller
         $vehicle->price = $request->price;
         $vehicle->motor = $request->motor;
         $vehicle->production_year = $request->production_year;
-        $vehicle->picture = $imagePath;
+        $vehicle->picture = $request->picture;
         $vehicle->concessionaire_id = $request->concessionaire_id;
         $vehicle->save();
 
@@ -118,7 +118,7 @@ class VehicleController extends Controller
         $vehicle->price = $request->price;
         $vehicle->motor = $request->motor;
         $vehicle->production_year = $request->production_year;
-        $vehicle->picture = $imagePath;
+        $vehicle->picture = $request->picture;
         $vehicle->concessionaire_id = $request->concessionaire_id;
         $vehicle->save();
 
