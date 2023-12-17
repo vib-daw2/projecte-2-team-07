@@ -64,13 +64,31 @@
                                 <div class="col-md-7">
                                     <input type="text" name="address" id="addressInput" class="form-control mb-2" />
                                 </div>
+                                <label class="col-md-3 col-form-label text-md-end">DNI</label>
+                                <div class="col-md-7">
+                                    <input type="text" name="dni" id="dniInput" class="form-control mb-2" />
+                                </div>
                                 <label class="col-md-3 col-form-label text-md-end">Cargo</label>
                                 <div class="col-md-7">
-                                    <input type="text" name="charge" id="chargeInput" class="form-control mb-2" />
+                                    <select name="charge" id="chargeInput" class="form-control mb-2">
+                                        <option value="Ayudante">Ayudante</option>
+                                        <option value="Director">Director</option>
+                                        <option value="Gerente">Gerente</option>
+                                        <option value="Asesor">Asesor</option>
+                                        <option value="Técnico">Técnico</option>
+                                        <option value="Operador">Operador</option>
+                                    </select>
                                 </div>
                                 <label class="col-md-3 col-form-label text-md-end">Departamento</label>
                                 <div class="col-md-7">
-                                    <input type="text" name="department" id="departmentInput" class="form-control mb-2" />
+                                    <select name="department" id="departmentInput" class="form-control mb-2">
+                                        <option value="Asistencia técnica">Asistencia técnica</option>
+                                        <option value="Ventas">Ventas</option>
+                                        <option value="Finanzas">Finanzas</option>
+                                        <option value="Marketing">Marketing</option>
+                                        <option value="Recursos Humanos">Recursos Humanos</option>
+                                        <option value="Atención al Cliente">Atención al Cliente</option>
+                                    </select>
                                 </div>
                                 <label class="col-md-3 col-form-label text-md-end">User ID</label>
                                 <div class="col-md-7">
@@ -123,6 +141,8 @@
     // Referència al employee seleccionat
     let selectedEmployee;
 
+    let token;
+
     let concessionaires = [];
 
     function resetButton(event) {
@@ -146,6 +166,7 @@
                 phone_number: document.getElementById("phoneInput").value,
                 email: document.getElementById("emailInput").value,
                 address: document.getElementById("addressInput").value,
+                dni: document.getElementById("dniInput").value,
                 user_id: document.getElementById("userInput").value,
                 charge: document.getElementById("chargeInput").value,
                 department: document.getElementById("departmentInput").value,
@@ -159,6 +180,7 @@
             selectedEmployee.phone_number = document.getElementById("phoneInput").value
             selectedEmployee.email = document.getElementById("emailInput").value
             selectedEmployee.address = document.getElementById("addressInput").value
+            selectedEmployee.dni = document.getElementById("dniInput").value
             selectedEmployee.user_id = document.getElementById("userInput").value
             selectedEmployee.charge = document.getElementById("chargeInput").value
             selectedEmployee.department = document.getElementById("departmentInput").value
@@ -177,7 +199,8 @@
                 method: 'PUT',
                 body: JSON.stringify(selectedEmployee),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 }
             });
 
@@ -222,6 +245,7 @@
         const phoneInput = document.getElementById('phoneInput');
         const emailInput = document.getElementById('emailInput');
         const addressInput = document.getElementById('addressInput');
+        const dniInput = document.getElementById('dniInput');
         const userInput = document.getElementById('userInput');
         const chargeInput = document.getElementById('chargeInput');
         const departmentInput = document.getElementById('departmentInput');
@@ -233,6 +257,7 @@
         phoneInput.value = "";
         emailInput.value = "";
         addressInput.value = "";
+        dniInput.value = "";
         userInput.value = "";
         chargeInput.value = "";
         departmentInput.value = "";
@@ -260,7 +285,8 @@
         try {
             const response = await fetch(url, {
                 headers: {
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 },
             });
 
@@ -333,6 +359,7 @@
                 headers: {
                     'Content-type': 'application/json',
                     'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 },
                 body: JSON.stringify(newData)
             });
@@ -363,7 +390,10 @@
 
         try {
             const response = await fetch(url + '/' + selectedEmployee.id, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
             });
             const json = await response.json();
             if (response.ok) { // codi 200
@@ -393,9 +423,6 @@
         // encara no tenim pagination 
     }
 
-    getList(url);
-    // Que surt per la consola si fem aquí:  console.log(Employees); per que ??
-
     async function createEmptyList(per_page) {
         // Buido el contingut
         const dataTable = document.getElementById('employeesList');
@@ -419,6 +446,7 @@
     }
 
     async function createListAndPagination() {
+        await getToken();
         loadConcessionaires();
         // Obtinc les dades del servidor
         await getList(url);
@@ -482,7 +510,12 @@
 
     async function loadConcessionaires() {
         try {
-            const respuesta = await fetch('http://localhost:8000/api/concessionaires/all');
+            const respuesta = await fetch('http://localhost:8000/api/concessionaires/all', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+            });
             if (!respuesta.ok) {
                 throw new Error('Error al obtener los concesionarios');
             }
@@ -593,6 +626,7 @@
         const phoneInput = document.getElementById('phoneInput');
         const emailInput = document.getElementById('emailInput');
         const addressInput = document.getElementById('addressInput');
+        const dniInput = document.getElementById('dniInput');
         const userInput = document.getElementById('userInput');
         const chargeInput = document.getElementById('chargeInput');
         const departmentInput = document.getElementById('departmentInput');
@@ -601,10 +635,11 @@
         phoneInput.value = selectedEmployee.phone_number;
         emailInput.value = selectedEmployee.email;
         addressInput.value = selectedEmployee.address;
+        dniInput.value = selectedEmployee.dni;
         userInput.value = selectedEmployee.user_id;
         chargeInput.value = selectedEmployee.charge;
         departmentInput.value = selectedEmployee.department;
-      
+
         concessionaireInput.value = selectedEmployee.concessionaire_id;
 
         // Activem botons per cancel·lar l'operació d'actualització i per
@@ -614,6 +649,31 @@
 
         const operationLabel = document.getElementById('operationLabel');
         operationLabel.innerText = "Actualizar Empleado";
+    }
+
+    async function getToken() {
+        console.log('obtener token')
+        try {
+            let token_url = 'http://127.0.0.1:8000/token';
+            const response = await fetch(token_url, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json'
+                }
+            });
+            if (response.ok) {
+                const json = await response.json();
+                token = json.token;
+
+
+            } else {
+                console.log('error token')
+                showMessages('error', 'Error accediendo a los datos remotos.');
+            }
+        } catch (error) {
+            console.log('error token 2')
+            showMessages('error', 'Error de red imprevisto.');
+        }
     }
 
     createListAndPagination();

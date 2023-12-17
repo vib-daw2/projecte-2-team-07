@@ -59,7 +59,11 @@ class CustomerController extends Controller
         $validator = Validator::make(
             $input,
             [
-                'name' => 'required|min:3|max:70',
+                'name' => 'required|max:75',
+                'phone_number' => 'required|regex:/^[69]\d{8}$/|max:11',
+                'email' => 'required|email|max:40',
+                'address' => 'required|max:75',
+                'dni' => 'required|regex:/^[XYZ]?\d{7,8}[A-Z]$/|max:10',
             ]
         );
 
@@ -141,7 +145,11 @@ class CustomerController extends Controller
         $validator = Validator::make(
             $input,
             [
-                'name' => 'required|min:3|max:70',
+                'name' => 'required|max:75',
+                'phone_number' => 'required|regex:/^[69]\d{8}$/|max:11',
+                'email' => 'required|email|max:40',
+                'address' => 'required|max:75',
+                'dni' => 'required|regex:/^[XYZ]?\d{7,8}[A-Z]$/|max:10',
             ]
         );
 

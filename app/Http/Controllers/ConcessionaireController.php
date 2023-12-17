@@ -36,9 +36,8 @@ class ConcessionaireController extends Controller
         $request->validate([
             'name' => 'required|unique:concessionaires,name|max:75',
             'phone_number' => 'required|regex:/^[69]\d{8}$/|max:11',
-            'email' => 'required|max:40',
+            'email' => 'required|email|max:40',
             'address' => 'required|max:75',
-            'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Almacenar la imagen
@@ -88,9 +87,8 @@ class ConcessionaireController extends Controller
         $request->validate([
             'name' => 'required|max:75',
             'phone_number' => 'required|regex:/^[69]\d{8}$/|max:11',
-            'email' => 'required|max:40',
+            'email' => 'required|email|max:40',
             'address' => 'required|max:75',
-            'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Almacenar la imagen

@@ -40,7 +40,7 @@ class EmployeeController extends Controller
         $request->validate([
             'name' => 'required|max:75',
             'phone_number' => 'required|regex:/^[69]\d{8}$/|max:11',
-            'email' => 'required|max:40',
+            'email' => 'required|email|max:40',
             'address' => 'required|max:75',
             'dni' => 'required|regex:/^[XYZ]?\d{7,8}[A-Z]$/|max:10',
             'charge' => 'required',
@@ -94,7 +94,7 @@ class EmployeeController extends Controller
          $request->validate([
             'name' => 'required|max:75',
             'phone_number' => 'required|regex:/^[69]\d{8}$/|max:11',
-            'email' => 'required|max:40',
+            'email' => 'required|email|max:40',
             'address' => 'required|max:75',
             'dni' => 'required|regex:/^[XYZ]?\d{7,8}[A-Z]$/|max:10',
             'charge' => 'required',

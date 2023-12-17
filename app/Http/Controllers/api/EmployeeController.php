@@ -15,7 +15,7 @@ class EmployeeController extends Controller
     public function index()
     {
         // ordenats per ordre d'inserció
-        $employees = Employee::latest()->paginate(10);
+        $employees = Employee::orderBy('created_at', 'desc')->orderBy('id', 'asc')->paginate(10);
 
         $response = [
             'success' => true,
@@ -52,36 +52,44 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-         // validar camps
-         $input = $request->all();
+        // validar camps
+        $input = $request->all();
 
-         $validator = Validator::make(
-             $input,
-             [
-                 'name' => 'required|min:3|max:70',
-             ]
-         );
- 
-         if ($validator->fails()) {
-             $response = [
-                 'success' => false,
-                 'message' => "Errors de validació",
-                 'data' => $validator->errors()->all(),
-             ];
- 
-             return response()->json($response, 400);
-         }
- 
-         // [ "name"=>"employees", .......]
-         $employee = Employee::create($input);
- 
-         $response = [
-             'success' => true,
-             'message' => "Empleado creado correctamente",
-             'data' => $employee,
-         ];
- 
-         return response()->json($response, 200);
+        $validator = Validator::make(
+            $input,
+            [
+                'name' => 'required|max:75',
+                'phone_number' => 'required|regex:/^[69]\d{8}$/|max:11',
+                'email' => 'required|email|max:40',
+                'address' => 'required|max:75',
+                'dni' => 'required|regex:/^[XYZ]?\d{7,8}[A-Z]$/|max:10',
+                'charge' => 'required',
+                'department' => 'required',
+                'concessionaire_id' => 'required',
+                'user_id' => 'nullable|exists:users,id',
+            ]
+        );
+
+        if ($validator->fails()) {
+            $response = [
+                'success' => false,
+                'message' => "Errors de validació",
+                'data' => $validator->errors()->all(),
+            ];
+
+            return response()->json($response, 400);
+        }
+
+        // [ "name"=>"employees", .......]
+        $employee = Employee::create($input);
+
+        $response = [
+            'success' => true,
+            'message' => "Empleado creado correctamente",
+            'data' => $employee,
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
@@ -140,7 +148,15 @@ class EmployeeController extends Controller
         $validator = Validator::make(
             $input,
             [
-                'name' => 'required|min:3|max:70',
+                'name' => 'required|max:75',
+                'phone_number' => 'required|regex:/^[69]\d{8}$/|max:11',
+                'email' => 'required|email|max:40',
+                'address' => 'required|max:75',
+                'dni' => 'required|regex:/^[XYZ]?\d{7,8}[A-Z]$/|max:10',
+                'charge' => 'required',
+                'department' => 'required',
+                'concessionaire_id' => 'required',
+                'user_id' => 'nullable|exists:users,id',
             ]
         );
 

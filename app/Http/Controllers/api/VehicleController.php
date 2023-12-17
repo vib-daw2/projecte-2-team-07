@@ -52,36 +52,40 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
-         // validar camps
-         $input = $request->all();
+        // validar camps
+        $input = $request->all();
 
-         $validator = Validator::make(
-             $input,
-             [
-                 'name' => 'required|min:3|max:70',
-             ]
-         );
- 
-         if ($validator->fails()) {
-             $response = [
-                 'success' => false,
-                 'message' => "Errors de validació",
-                 'data' => $validator->errors()->all(),
-             ];
- 
-             return response()->json($response, 400);
-         }
- 
-         // [ "name"=>"vehicles", .......]
-         $vehicle = Vehicle::create($input);
- 
-         $response = [
-             'success' => true,
-             'message' => "Vehiculo creado correctamente",
-             'data' => $vehicle,
-         ];
- 
-         return response()->json($response, 200);
+        $validator = Validator::make(
+            $input,
+            [
+                'name' => 'required|unique:vehicles,name|max:75',
+                'model' => 'required',
+                'price' => 'required|max:11',
+                'motor' => 'required|max:75',
+                'production_year' => 'required',
+            ]
+        );
+
+        if ($validator->fails()) {
+            $response = [
+                'success' => false,
+                'message' => "Errors de validació",
+                'data' => $validator->errors()->all(),
+            ];
+
+            return response()->json($response, 400);
+        }
+
+        // [ "name"=>"vehicles", .......]
+        $vehicle = Vehicle::create($input);
+
+        $response = [
+            'success' => true,
+            'message' => "Vehiculo creado correctamente",
+            'data' => $vehicle,
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
@@ -140,7 +144,11 @@ class VehicleController extends Controller
         $validator = Validator::make(
             $input,
             [
-                'name' => 'required|min:3|max:70',
+                'name' => 'required|max:75',
+                'model' => 'required',
+                'price' => 'required|max:11',
+                'motor' => 'required|max:75',
+                'production_year' => 'required',
             ]
         );
 

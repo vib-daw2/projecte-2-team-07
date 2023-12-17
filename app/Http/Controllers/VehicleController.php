@@ -39,7 +39,6 @@ class VehicleController extends Controller
             'price' => 'required|max:11',
             'motor' => 'required|max:75',
             'production_year' => 'required',
-            'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Almacenar la imagen
@@ -103,7 +102,6 @@ class VehicleController extends Controller
             'price' => 'required|max:11',
             'motor' => 'required|max:75',
             'production_year' => 'required',
-            'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Almacenar la imagen

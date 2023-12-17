@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,25 +14,30 @@ use Illuminate\Support\Facades\Auth;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/concessionaires/api/index', function () {
-    return view('concessionaires.api.index');
-})->name('comncessionaires-api');
-
-Route::get('/vehicles/api/index', function () {
-    return view('vehicles.api.index');
-})->name('vehicles-api');
-
-Route::get('/customers/api/index', function () {
-    return view('customers.api.index');
-})->name('customers-api');
-
-Route::get('/employees/api/index', function () {
-    return view('employees.api.index');
-})->name('employees-api');
+Route::get('/token', function (Request $request) {
+    if (auth()->check()) {
+        auth()->user()->tokens()->delete();
+        if (auth()->user()->is_admin) {
+            $role = "admin";
+        } elseif (auth()->user()->is_employee) {
+            $role = "employee";
+        } else {
+            $role = "normal";
+        }
+        $token = auth()->user()->createToken("prova", [$role]);
+        return response()->json([
+            'token' => $token->plainTextToken,
+            'role' => $role
+        ], 200);
+    } else {
+        return response()->json("Not authorized", 401);
+    }
+});
 
 Route::view('/privacy', 'auth.privacy-policy')->name('auth.privacy-policy');
 
@@ -39,23 +45,35 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 
-Route::group(['middleware'=>'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
 
-    Route::group(['middleware'=>['auth','is_employee']], function() {
-    
+    Route::group(['middleware' => ['auth', 'is_employee']], function () {
+
+        Route::get('/concessionaires/api/index', function () {
+            return view('concessionaires.api.index');
+        })->name('comncessionaires-api');
+        
+        Route::get('/vehicles/api/index', function () {
+            return view('vehicles.api.index');
+        })->name('vehicles-api');
+        
+        Route::get('/customers/api/index', function () {
+            return view('customers.api.index');
+        })->name('customers-api');
+
         //Customers
         Route::get('/customers', [App\Http\Controllers\CustomerController::class, 'index'])
             ->name('customers.index');
-        
+
         Route::get('/customers/show/{id}', [App\Http\Controllers\CustomerController::class, 'show'])
             ->name('customers.show');
-        
+
         Route::get('/customers/destroy/{id}', [App\Http\Controllers\CustomerController::class, 'destroy'])
             ->name('customers.destroy');
-        
+
         Route::get('/customers/edit/{id}', [App\Http\Controllers\CustomerController::class, 'edit'])
             ->name('customers.edit');
-        
+
         Route::post('/customers/update/{id}', [App\Http\Controllers\CustomerController::class, 'update'])
             ->name('customers.update');
 
@@ -75,9 +93,13 @@ Route::group(['middleware'=>'auth'], function() {
         Route::post('/vehicles/update/{id}', [App\Http\Controllers\VehicleController::class, 'update'])
             ->name('vehicles.update');
     });
-   
-    Route::group(['middleware'=>['auth','is_admin']], function() {
-        
+
+    Route::group(['middleware' => ['auth', 'is_admin']], function () {
+
+        Route::get('/employees/api/index', function () {
+            return view('employees.api.index');
+        })->name('employees-api');
+
         //Employees
         Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'index'])
             ->name('employees.index');
@@ -103,16 +125,16 @@ Route::group(['middleware'=>'auth'], function() {
         //Concessionaires    
         Route::get('/concessionaires/create', [App\Http\Controllers\ConcessionaireController::class, 'create'])
             ->name('concessionaires.create');
-        
+
         Route::post('/concessionaires/store', [App\Http\Controllers\ConcessionaireController::class, 'store'])
             ->name('concessionaires.store');
-        
+
         Route::get('/concessionaires/destroy/{id}', [App\Http\Controllers\ConcessionaireController::class, 'destroy'])
             ->name('concessionaires.destroy');
-        
+
         Route::get('/concessionaires/edit/{id}', [App\Http\Controllers\ConcessionaireController::class, 'edit'])
             ->name('concessionaires.edit');
-        
+
         Route::post('/concessionaires/update/{id}', [App\Http\Controllers\ConcessionaireController::class, 'update'])
             ->name('concessionaires.update');
 
@@ -159,25 +181,25 @@ Route::group(['middleware'=>'auth'], function() {
 
     //Sales
     Route::get('/sales', [App\Http\Controllers\SaleController::class, 'index'])
-    ->name('sales.index');
+        ->name('sales.index');
 
     Route::get('/sales/show/{id}', [App\Http\Controllers\SaleController::class, 'show'])
-    ->name('sales.show');
+        ->name('sales.show');
 
     Route::get('/sales/create', [App\Http\Controllers\SaleController::class, 'create'])
-    ->name('sales.create');
+        ->name('sales.create');
 
     Route::post('/sales/store', [App\Http\Controllers\SaleController::class, 'store'])
-    ->name('sales.store');
+        ->name('sales.store');
 
     Route::get('/sales/destroy/{id}', [App\Http\Controllers\SaleController::class, 'destroy'])
-    ->name('sales.destroy');
+        ->name('sales.destroy');
 
     Route::get('/sales/edit/{id}', [App\Http\Controllers\SaleController::class, 'edit'])
-    ->name('sales.edit');
+        ->name('sales.edit');
 
     Route::post('/sales/update/{id}', [App\Http\Controllers\SaleController::class, 'update'])
-    ->name('sales.update');
+        ->name('sales.update');
 });
 
 //Concessionaires
@@ -197,13 +219,13 @@ Route::get('/vehicles/show/{id}', [App\Http\Controllers\VehicleController::class
 Route::view('/location', 'location')->name('location');
 
 Route::get('/customers/create', [App\Http\Controllers\CustomerController::class, 'create'])
-->name('customers.create');
+    ->name('customers.create');
 
 Route::post('/customers/store', [App\Http\Controllers\CustomerController::class, 'store'])
-->name('customers.store');
+    ->name('customers.store');
 
 Route::get('/users/create', [App\Http\Controllers\UserController::class, 'create'])
-->name('users.create');
+    ->name('users.create');
 
 Route::post('/users/store', [App\Http\Controllers\UserController::class, 'store'])
-->name('users.store');
+    ->name('users.store');

@@ -176,6 +176,7 @@
                 headers: {
                     'Content-type': 'application/json',
                     'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 },
                 body: JSON.stringify(jsonData)
             });
@@ -210,6 +211,7 @@
                 headers: {
                     'Content-type': 'application/json',
                     'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 },
                 body: JSON.stringify(jsonData)
             });
@@ -237,7 +239,8 @@
                 method: 'PUT',
                 body: JSON.stringify(selectedCustomer),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 }
             });
 
@@ -296,7 +299,8 @@
         try {
             const response = await fetch(url, {
                 headers: {
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 },
             });
 
@@ -369,6 +373,7 @@
                 headers: {
                     'Content-type': 'application/json',
                     'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 },
                 body: JSON.stringify(newData)
             });
@@ -399,7 +404,10 @@
 
         try {
             const response = await fetch(url + '/' + selectedCustomer.id, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
             });
             const json = await response.json();
             if (response.ok) { // codi 200
@@ -427,9 +435,6 @@
         loadIntoList()
     }
 
-    getList(url);
-    // Que surt per la consola si fem aquí:  console.log(Customers); per que ??
-
     async function createEmptyList(per_page) {
         // Buido el contingut
         const dataTable = document.getElementById('customersList');
@@ -453,6 +458,7 @@
     }
 
     async function createListAndPagination() {
+        await getToken();
         // Obtinc les dades del servidor
         await getList(url);
         //... customers, per_page, last_page disponibles ...                
@@ -543,7 +549,12 @@
 
     function getConcessionaires() {
 
-        fetch(url + '/' + selectedCustomer.id + '/edit-concessionaires')
+        fetch(url + '/' + selectedCustomer.id + '/edit-concessionaires', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+            })
             .then(response => response.json())
             .then(data => {
                 const concessionairesOut = data.data[1]; // Extraer los segundos clientes de la respuesta
@@ -617,6 +628,31 @@
         const operationLabel = document.getElementById('operationLabel');
         operationLabel.innerText = "Actualizar Concesionario";
     }
+
+    async function getToken() {
+        console.log('obtener token')
+        try {
+            let token_url = 'http://127.0.0.1:8000/token';
+            const response = await fetch(token_url, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json'
+                }
+            });
+            if (response.ok) {
+                const json = await response.json();
+                token = json.token;
+
+
+            } else {
+                console.log('error token')
+                showMessages('error', 'Error accediendo a los datos remotos.');
+            }
+        } catch (error) {
+            console.log('error token 2')
+            showMessages('error', 'Error de red imprevisto.');
+        }
+    }    
 
     createListAndPagination();
     reset(); // mateix codi que reset(), sense paràmetre event!!

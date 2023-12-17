@@ -80,7 +80,7 @@
                                 </div>
                                 <label class="col-md-3 col-form-label text-md-end">Año de producción</label>
                                 <div class="col-md-7">
-                                    <input type="text" name="production_year" id="productionYearInput" class="form-control mb-2" />
+                                    <input type="date" name="production_year" id="productionYearInput" class="form-control mb-2" max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" />
                                 </div>
                                 <label class="col-md-3 col-form-label text-md-end">Foto</label>
                                 <div class="col-md-7">
@@ -187,7 +187,8 @@
                 method: 'PUT',
                 body: JSON.stringify(selectedVehicle),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 }
             });
 
@@ -270,7 +271,8 @@
         try {
             const response = await fetch(url, {
                 headers: {
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 },
             });
 
@@ -343,6 +345,7 @@
                 headers: {
                     'Content-type': 'application/json',
                     'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 },
                 body: JSON.stringify(newData)
             });
@@ -373,7 +376,10 @@
 
         try {
             const response = await fetch(url + '/' + selectedVehicle.id, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
             });
             const json = await response.json();
             if (response.ok) { // codi 200
@@ -403,9 +409,6 @@
         // encara no tenim pagination 
     }
 
-    getList(url);
-    // Que surt per la consola si fem aquí:  console.log(vehicles); per que ??
-
     async function createEmptyList(per_page) {
         // Buido el contingut
         const dataTable = document.getElementById('vehiclesList');
@@ -429,6 +432,7 @@
     }
 
     async function createListAndPagination() {
+        await getToken();
         loadConcessionaires();
         // Obtinc les dades del servidor
         await getList(url);
@@ -492,7 +496,12 @@
 
     async function loadConcessionaires() {
         try {
-            const respuesta = await fetch('http://localhost:8000/api/concessionaires/all');
+            const respuesta = await fetch('http://localhost:8000/api/concessionaires/all', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+            });
             if (!respuesta.ok) {
                 throw new Error('Error al obtener los concesionarios');
             }
@@ -614,7 +623,7 @@
         motorInput.value = selectedVehicle.motor;
         productionYearInput.value = selectedVehicle.production_year;
         pictureInput.value = selectedVehicle.picture;
-      
+
         concessionaireInput.value = selectedVehicle.concessionaire_id;
 
         // Activem botons per cancel·lar l'operació d'actualització i per
@@ -624,6 +633,31 @@
 
         const operationLabel = document.getElementById('operationLabel');
         operationLabel.innerText = "Actualizar Vehiculo";
+    }
+
+    async function getToken() {
+        console.log('obtener token')
+        try {
+            let token_url = 'http://127.0.0.1:8000/token';
+            const response = await fetch(token_url, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json'
+                }
+            });
+            if (response.ok) {
+                const json = await response.json();
+                token = json.token;
+
+
+            } else {
+                console.log('error token')
+                showMessages('error', 'Error accediendo a los datos remotos.');
+            }
+        } catch (error) {
+            console.log('error token 2')
+            showMessages('error', 'Error de red imprevisto.');
+        }
     }
 
     createListAndPagination();

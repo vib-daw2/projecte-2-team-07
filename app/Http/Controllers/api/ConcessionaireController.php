@@ -62,7 +62,10 @@ class ConcessionaireController extends Controller
         $validator = Validator::make(
             $input,
             [
-                'name' => 'required|min:3|max:70',
+                'name' => 'required|unique:concessionaires,name|max:75',
+                'phone_number' => 'required|regex:/^[69]\d{8}$/|max:11',
+                'email' => 'required|email|max:40',
+                'address' => 'required|max:75',
             ]
         );
 
@@ -144,7 +147,10 @@ class ConcessionaireController extends Controller
         $validator = Validator::make(
             $input,
             [
-                'name' => 'required|min:3|max:70',
+                'name' => 'required|max:75',
+                'phone_number' => 'required|regex:/^[69]\d{8}$/|max:11',
+                'email' => 'required|email|max:40',
+                'address' => 'required|max:75',
             ]
         );
 
@@ -211,7 +217,7 @@ class ConcessionaireController extends Controller
     {
         $arrayId = $concessionaire->vehicles->pluck('id');
         $vehicles = Vehicle::whereNotIn('id', $arrayId)->get();
-    
+
         $response = [
             'success' => true,
             'data' => [
@@ -219,7 +225,7 @@ class ConcessionaireController extends Controller
                 'vehicles' => $vehicles,
             ],
         ];
-    
+
         return response()->json($response, 200);
     }
 
@@ -228,24 +234,24 @@ class ConcessionaireController extends Controller
         $request->validate([
             'vehicles' => 'exists:vehicles,id',
         ]);
-    
+
         $concessionaire->vehicles()->saveMany(Vehicle::whereIn('id', $request->vehicles)->get());
-    
+
         $response = [
             'success' => true,
             'message' => 'Vehículos asignados correctamente',
             'data' => $concessionaire,
         ];
-    
+
         return response()->json($response, 200);
     }
 
     public function editEmployees(Concessionaire $concessionaire)
     {
         $arrayId = $concessionaire->employees->pluck('id');
-    
+
         $employees = Employee::whereNotIn('id', $arrayId)->get();
-    
+
         $response = [
             'success' => true,
             'data' => [
@@ -253,7 +259,7 @@ class ConcessionaireController extends Controller
                 'employees' => $employees,
             ],
         ];
-    
+
         return response()->json($response, 200);
     }
 
@@ -262,15 +268,15 @@ class ConcessionaireController extends Controller
         $request->validate([
             'employees' => 'exists:employees,id',
         ]);
-    
+
         $concessionaire->employees()->saveMany(Employee::whereIn('id', $request->employees)->get());
-    
+
         $response = [
             'success' => true,
             'message' => 'Empleados asignados correctamente',
             'data' => $concessionaire,
         ];
-    
+
         return response()->json($response, 200);
     }
 
@@ -292,7 +298,7 @@ class ConcessionaireController extends Controller
         $response = [
             'success' => true,
             'message' => 'Clientes encontrados correctamente',
-            'data' => [$concessionaire,$customers]
+            'data' => [$concessionaire, $customers]
         ];
 
         return response()->json($response, 200);
